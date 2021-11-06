@@ -1,5 +1,8 @@
 package logic.element;
 
+import java.util.ResourceBundle.Control;
+
+import logic.Controler.Controler;
 import logic.system.SysHandler;
 
 public abstract class Element {
@@ -14,9 +17,12 @@ public abstract class Element {
 
     protected SysHandler handler;
 
-    public Element(SysHandler handler){
+    protected int identity;
+
+    public Element(SysHandler handler, int identity){
         assert(handler != null);
         this.handler = handler;
+        this.identity = identity;
     }
 
     public Boolean setX(int x) {
@@ -41,7 +47,13 @@ public abstract class Element {
         return _overlapAble_();
     }
 
-    protected abstract Boolean _overlapAble_();
+    public int identity(){
+        return identity;
+    }
+
+    public void run(Controler controler){
+        
+    }
 
     protected Boolean checkX(int x) {
         return handler.getRangeX() > x && x >= 0;
@@ -50,4 +62,6 @@ public abstract class Element {
     protected Boolean checkY(int y) {
         return handler.getRangeY() > y && y >= 0;
     }
+
+    protected abstract Boolean _overlapAble_();
 }

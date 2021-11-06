@@ -4,9 +4,10 @@ import logic.system.SysHandler;
 
 public class Moveable extends Element{
     
-    public Moveable(SysHandler handler){
-        super(handler);
+    public Moveable(SysHandler handler, int identity){
+        super(handler, identity);
     }
+
 
     @Override
     protected Boolean _overlapAble_(){
