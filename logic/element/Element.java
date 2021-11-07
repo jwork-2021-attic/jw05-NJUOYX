@@ -1,11 +1,8 @@
 package logic.element;
 
-import java.util.ResourceBundle.Control;
-
-import logic.Controler.Controler;
 import logic.system.SysHandler;
 
-public abstract class Element {
+public abstract class Element extends Thread{
     /*
      * ---------------->x
      * x axis points to right side
@@ -20,7 +17,10 @@ public abstract class Element {
     protected int identity;
 
     public Element(SysHandler handler, int identity){
+        super(Integer.toString(identity));
+
         assert(handler != null);
+
         this.handler = handler;
         this.identity = identity;
     }
@@ -43,16 +43,20 @@ public abstract class Element {
         }
     }
 
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
     public Boolean overlapAble() {
         return _overlapAble_();
     }
 
     public int identity(){
         return identity;
-    }
-
-    public void run(Controler controler){
-        
     }
 
     protected Boolean checkX(int x) {

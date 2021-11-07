@@ -1,6 +1,12 @@
+import javax.swing.JFrame;
+
+import logic.system.Rsystem;
+
 
 public class Main {
     public static void main(String args[]){
-        System.out.println("hello world!");
+        Rsystem sys = new Rsystem(100, 100);
+        sys.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        sys.setVisible(true);
     }
 }
