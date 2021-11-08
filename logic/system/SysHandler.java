@@ -11,5 +11,5 @@ public interface SysHandler {
     */
     String getMoveInput();
     Boolean moveTo(Element ele, int x ,int y);
-
+    void setVisibleOfMe(Element ele, Boolean on);
 }
