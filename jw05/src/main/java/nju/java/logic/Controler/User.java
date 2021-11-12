@@ -6,12 +6,13 @@ import java.util.concurrent.TimeUnit;
 import nju.java.logic.element.Brother;
 import nju.java.logic.system.SysHandler;
 
-public class User extends Brother {
+public class User extends Brother implements Controler {
 
     public User(SysHandler handler, int identity) {
         super(handler, identity);
     }
 
+    @Override
     public void run() {
         handler.setVisibleOfMe(this, true);
         while (true) {

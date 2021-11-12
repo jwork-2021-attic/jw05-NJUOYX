@@ -1,33 +1,22 @@
 package nju.java.logic.system;
 
+import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
-
-import nju.java.logic.element.Element;
 import nju.java.logic.Controler.User;
+import nju.java.logic.element.Element;
 
 public class Rsystem extends JFrame implements SysHandler, KeyListener {
-
-    private class Position {
-        public int x;
-        public int y;
-
-        public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
 
     private int rangeX;
     private int rangeY;
@@ -49,14 +38,17 @@ public class Rsystem extends JFrame implements SysHandler, KeyListener {
         press_input_queue = new LinkedList<>();
         type_input_queue = new LinkedList<>();
 
-        spaces = new HashMap<>();
+        Creator creator = new Creator();
+        try {
+            spaces = creator.getSpace(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            spaces = new HashMap<>();
+        }
 
         threads = new LinkedList<>();
 
-        Element e = new User(this, 2);
-        spaces.put(new Position(0, 0), e);
-
-        threads.add(new Thread(e));
+        spaces.forEach((k, v) -> threads.add(new Thread(v)));
 
         terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
         add(terminal);
@@ -70,16 +62,15 @@ public class Rsystem extends JFrame implements SysHandler, KeyListener {
             t.start();
         });
         Boolean running = true;
-        while(running){
+        while (running) {
             running = false;
-            while(threads.iterator().hasNext()){
-                if(threads.iterator().next().isAlive()){
+            while (threads.iterator().hasNext()) {
+                if (threads.iterator().next().isAlive()) {
                     running = true;
                 }
             }
         }
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -154,7 +145,7 @@ public class Rsystem extends JFrame implements SysHandler, KeyListener {
     public void setVisibleOfMe(Element ele, Boolean on) {
         Position pos = new Position(ele.getX(), ele.getY());
         assert (spaces.get(pos) != null);
-        terminal.write((char) ele.identity(), pos.x, pos.y, on?Color.white:Color.black);
+        terminal.write((char) ele.identity(), pos.x, pos.y, on ? Color.white : Color.black);
         repaint();
     }
 

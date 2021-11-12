@@ -9,15 +9,15 @@ package asciiPanel;
  */
 public class AsciiFont {
 
-    public static final AsciiFont CP437_8x8 = new AsciiFont("resources/cp437_8x8.png", 8, 8);
-    public static final AsciiFont CP437_10x10 = new AsciiFont("resources/cp437_10x10.png", 10, 10);
-    public static final AsciiFont CP437_12x12 = new AsciiFont("resources/cp437_12x12.png", 12, 12);
-    public static final AsciiFont CP437_16x16 = new AsciiFont("resources/cp437_16x16.png", 16, 16);
-    public static final AsciiFont CP437_9x16 = new AsciiFont("resources/cp437_9x16.png", 9, 16);
-    public static final AsciiFont DRAKE_10x10 = new AsciiFont("resources/drake_10x10.png", 10, 10);
-    public static final AsciiFont TAFFER_10x10 = new AsciiFont("resources/taffer_10x10.png", 10, 10);
-    public static final AsciiFont QBICFEET_10x10 = new AsciiFont("resources/qbicfeet_10x10.png", 10, 10);
-    public static final AsciiFont TALRYTH_15_15 = new AsciiFont("talryth_square_15x15.png", 15, 15);
+    public static final AsciiFont CP437_8x8 = new AsciiFont("asciiFont/cp437_8x8.png", 8, 8);
+    public static final AsciiFont CP437_10x10 = new AsciiFont("asciiFont/cp437_10x10.png", 10, 10);
+    public static final AsciiFont CP437_12x12 = new AsciiFont("asciiFont/cp437_12x12.png", 12, 12);
+    public static final AsciiFont CP437_16x16 = new AsciiFont("asciiFont/cp437_16x16.png", 16, 16);
+    public static final AsciiFont CP437_9x16 = new AsciiFont("asciiFont/cp437_9x16.png", 9, 16);
+    public static final AsciiFont DRAKE_10x10 = new AsciiFont("asciiFont/drake_10x10.png", 10, 10);
+    public static final AsciiFont TAFFER_10x10 = new AsciiFont("asciiFont/taffer_10x10.png", 10, 10);
+    public static final AsciiFont QBICFEET_10x10 = new AsciiFont("asciiFont/qbicfeet_10x10.png", 10, 10);
+    public static final AsciiFont TALRYTH_15_15 = new AsciiFont("asciiFont/talryth_square_15x15.png", 15, 15);
 
     private String fontFilename;
 
