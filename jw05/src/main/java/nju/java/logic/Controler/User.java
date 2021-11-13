@@ -17,7 +17,7 @@ public class User extends Brother implements Controler {
         handler.setVisibleOfMe(this, true);
         while (true) {
             String move = handler.getMoveInput();
-            System.out.println(move);
+            //System.out.println(move);
             int nx = x, ny = y;
             if (move != null) {
                 if (move == "up") {
@@ -31,11 +31,12 @@ public class User extends Brother implements Controler {
                 } else {
                     continue;
                 }
-                handler.moveTo(this, nx, ny);
-                handler.setVisibleOfMe(this, false);
-                x = nx;
-                y = ny;
-                handler.setVisibleOfMe(this, true);
+                if (handler.moveTo(this, nx, ny)) {
+                    handler.setVisibleOfMe(this, false);
+                    x = nx;
+                    y = ny;
+                    handler.setVisibleOfMe(this, true);
+                }
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(100);

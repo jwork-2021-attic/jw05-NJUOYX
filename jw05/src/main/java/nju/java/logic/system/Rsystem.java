@@ -49,7 +49,7 @@ public class Rsystem extends JFrame implements SysHandler, KeyListener {
         threads = new LinkedList<>();
 
         spaces.forEach((k, v) -> threads.add(new Thread(v)));
-
+        //spaces.forEach((k, v) -> System.out.println(k.hashCode()));
         terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
         add(terminal);
         pack();
@@ -132,6 +132,7 @@ public class Rsystem extends JFrame implements SysHandler, KeyListener {
         Position pos = new Position(ele.getX(), ele.getY());
         assert (spaces.get(pos) != null);
         Position npos = new Position(x, y);
+        //System.out.println(npos.hashCode());
         if (spaces.get(npos) == null) {
             spaces.remove(pos);
             spaces.put(npos, ele);

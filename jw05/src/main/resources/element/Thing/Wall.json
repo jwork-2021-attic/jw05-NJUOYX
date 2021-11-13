@@ -1,12 +1,12 @@
 [
     {
-        "PositionX": 4,
-        "PositionY": 4,
+        "positionX": 4,
+        "positionY": 4,
         "identity": 165
     },
     {
-        "PositionX": 4,
-        "PositionY": 5,
+        "positionX": 4,
+        "positionY": 5,
         "identity": 165
     }
 ]

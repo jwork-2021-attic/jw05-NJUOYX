@@ -8,4 +8,19 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public int hashCode() {
+        String s = String.format("(%d,%d)", x, y);
+        return s.hashCode();
+    }
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof Position) {
+            Position op = (Position)other;
+            return op.x == x && op.y == y;
+        }else{
+            return false;
+        }
+    }
 }

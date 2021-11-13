@@ -1,12 +1,12 @@
 [
     {
-        "PositionX": 0,
-        "PositionY": 0,
+        "positionX": 0,
+        "positionY": 0,
         "identity": 0
     },
     {
-        "PositionX": 1,
-        "PositionY": 0,
+        "positionX": 1,
+        "positionY": 0,
         "identity": 0
     }
 ]
