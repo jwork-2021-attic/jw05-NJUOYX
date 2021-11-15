@@ -1,13 +1,15 @@
 package nju.java;
 
 import javax.swing.JFrame;
-import nju.java.logic.system.Rsystem;
+
+import nju.java.logic.system.UnitSystem;
+
 
 public class App {
     public static void main(String args[]){
-        Rsystem sys = new Rsystem(10, 10);
-        sys.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        sys.setVisible(true);
-        sys.exec();
+        UnitSystem unitsystem = UnitSystem.getInstance();
+        unitsystem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        unitsystem.setVisible(true);
+        unitsystem.exec();
     }
 }

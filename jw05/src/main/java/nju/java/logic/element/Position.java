@@ -1,4 +1,4 @@
-package nju.java.logic.system;
+package nju.java.logic.element;
 
 public class Position {
     public int x;
@@ -8,7 +8,7 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-
+    
     @Override
     public int hashCode() {
         String s = String.format("(%d,%d)", x, y);
