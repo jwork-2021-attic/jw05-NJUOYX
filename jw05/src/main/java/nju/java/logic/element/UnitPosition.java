@@ -13,8 +13,10 @@ public class UnitPosition extends Position{
     public synchronized Boolean tryOccupy(){
         if(!occupied){
             occupied = true;
+            return true;
+        }else{
+            return false;
         }
-        return occupied;
     }
 
     public void release(){

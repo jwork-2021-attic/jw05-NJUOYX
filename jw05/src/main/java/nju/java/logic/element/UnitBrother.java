@@ -38,6 +38,7 @@ public class UnitBrother extends Unit {
                 Position p = new Position(x, y);
                 Position np = new Position(nx, ny);
                 if (us.tryOccupy(np)) {
+                    us.release(p);
                     us.setVisibleOfMe(p, character, color, false);
                     x = nx;
                     y = ny;

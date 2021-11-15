@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,12 +20,13 @@ public class UnitCreator {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        InputStream is = UnitCreator.class.getClassLoader().getResource("element/Thing/UnitWall.json").openStream();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.PUBLIC_ONLY);
+        InputStream is = UnitCreator.class.getClassLoader().getResource("element/UnitWall.json").openStream();
         UnitWall unitWall = mapper.readValue(is, UnitWall.class);
         units.add(unitWall);
 
-        is = UnitCreator.class.getClassLoader().getResource("element/Thing/UnitBrother.json").openStream();
+        is = UnitCreator.class.getClassLoader().getResource("element/UnitBrother.json").openStream();
         UnitBrother unitBroter = mapper.readValue(is, UnitBrother.class);
         units.add(unitBroter);
 
