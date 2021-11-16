@@ -26,4 +26,6 @@ public abstract class Unit extends Thread {
      * system need this function to tell unit to occupid positions
      */
     public abstract void prepare();
+
+    public abstract void underAttack(int damage);
 }

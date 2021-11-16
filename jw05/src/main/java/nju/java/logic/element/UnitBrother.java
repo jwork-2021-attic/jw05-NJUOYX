@@ -7,6 +7,7 @@ import nju.java.logic.system.UnitSystem;
 public class UnitBrother extends Unit {
     private int x;
     private int y;
+    private int hp;
 
     public void setX(int x) {
         this.x = x;
@@ -22,6 +23,11 @@ public class UnitBrother extends Unit {
         Position p = new Position(x,y);
         assert(us.tryOccupy(this, p) == this);
         us.setVisibleOfMe(p, character, color, true);
+    }
+
+    @Override
+    public void underAttack(int damage){
+
     }
 
     @Override
@@ -42,16 +48,21 @@ public class UnitBrother extends Unit {
                 } else {
                     continue;
                 }
+
                 Position p = new Position(x, y);
                 Position np = new Position(nx, ny);
-                if (us.tryOccupy(this, np) == this) {
+                Unit res = us.tryOccupy(this, np);
+                if (res == this) {
                     us.release(this, p);
                     us.setVisibleOfMe(p, character, color, false);
                     x = nx;
                     y = ny;
                     us.setVisibleOfMe(np, character, color, true);
+                }else{
+                    res.underAttack(1);
                 }
             }
+
             try {
                 TimeUnit.MILLISECONDS.sleep(25);
             } catch (InterruptedException ir) {

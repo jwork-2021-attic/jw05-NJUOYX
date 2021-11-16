@@ -24,4 +24,8 @@ public class UnitWall extends Unit {
     public void run() {
 
     }
+    @Override
+    public void underAttack(int damage) {
+        
+    }
 }
