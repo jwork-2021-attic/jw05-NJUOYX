@@ -123,16 +123,16 @@ public class UnitSystem extends JFrame implements KeyListener {
         }
     }
 
-    public Boolean tryOccupy(Position target) {
+    public Boolean tryOccupy(Unit unit, Position target) {
         assert (positions.contains(target));
         UnitPosition up = positions.get(positions.indexOf(target));
-        return up.tryOccupy();
+        return up.tryOccupy(unit);
     }
 
-    public void release(Position target) {
+    public void release(Unit unit, Position target) {
         assert (positions.contains(target));
         UnitPosition up = positions.get(positions.indexOf(target));
-        up.release();
+        up.release(unit);
     }
 
     public void setVisibleOfMe(Position position, char character, Color color, Boolean on) {

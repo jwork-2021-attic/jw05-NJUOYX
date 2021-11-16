@@ -15,7 +15,7 @@ public class UnitWall extends Unit {
         UnitSystem us = UnitSystem.getInstance();
         for (int i = 0; i < positions.length; i++) {
             Position p = new Position(positions[i][0],positions[i][1]);
-            us.tryOccupy(p);
+            us.tryOccupy(this, p);
             us.setVisibleOfMe(p, character, color, true);
         }
     }
