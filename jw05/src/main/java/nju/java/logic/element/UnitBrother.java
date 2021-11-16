@@ -17,6 +17,12 @@ public class UnitBrother extends Unit {
     }
 
     @Override
+    public void prepare(){
+        UnitSystem us = UnitSystem.getInstance();
+        assert(us.tryOccupy(new Position(x,y)));
+    }
+
+    @Override
     public void run() {
         UnitSystem us = UnitSystem.getInstance();
         us.setVisibleOfMe(new Position(x, y), character, color, true);

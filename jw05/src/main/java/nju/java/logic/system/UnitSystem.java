@@ -64,6 +64,7 @@ public class UnitSystem extends JFrame implements KeyListener {
     }
 
     public void exec() {
+        units.forEach(unit->unit.prepare());
         units.forEach(unit -> unit.start());
         Boolean running = true;
         while(running) {

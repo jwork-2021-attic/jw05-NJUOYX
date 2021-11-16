@@ -21,4 +21,9 @@ public abstract class Unit extends Thread {
     public Color getColor() {
         return color;
     }
+
+    /**
+     * system need this function to tell unit to occupid positions
+     */
+    public abstract void prepare();
 }

@@ -11,12 +11,17 @@ public class UnitWall extends Unit {
     }
 
     @Override
-    public void run() {
+    public void prepare() {
         UnitSystem us = UnitSystem.getInstance();
         for (int i = 0; i < positions.length; i++) {
             Position p = new Position(positions[i][0],positions[i][1]);
             us.tryOccupy(p);
             us.setVisibleOfMe(p, character, color, true);
         }
+    }
+
+    @Override
+    public void run() {
+
     }
 }
