@@ -19,13 +19,14 @@ public class UnitBrother extends Unit {
     @Override
     public void prepare(){
         UnitSystem us = UnitSystem.getInstance();
-        assert(us.tryOccupy(new Position(x,y)));
+        Position p = new Position(x,y);
+        assert(us.tryOccupy(p));
+        us.setVisibleOfMe(p, character, color, true);
     }
 
     @Override
     public void run() {
         UnitSystem us = UnitSystem.getInstance();
-        us.setVisibleOfMe(new Position(x, y), character, color, true);
         while (true) {
             String move = us.getMoveInput();
             int nx = x, ny = y;

@@ -137,7 +137,7 @@ public class UnitSystem extends JFrame implements KeyListener {
 
     public void setVisibleOfMe(Position position, char character, Color color, Boolean on) {
         assert (positions.contains(position));
-        terminal.write(character, position.x, position.y, on ? Color.white : Color.black);
+        terminal.write(character, position.x, position.y, on ? color:Color.BLACK);
         repaint();
     }
 }

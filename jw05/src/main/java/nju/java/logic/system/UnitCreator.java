@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nju.java.logic.element.Unit;
 import nju.java.logic.element.UnitBrother;
+import nju.java.logic.element.UnitMonster;
 import nju.java.logic.element.UnitWall;
 
 public class UnitCreator {
@@ -30,6 +31,10 @@ public class UnitCreator {
         UnitBrother unitBroter = mapper.readValue(is, UnitBrother.class);
         units.add(unitBroter);
 
+        is = UnitCreator.class.getClassLoader().getResource("element/UnitMonster.json").openStream();
+        UnitMonster unitMonster = mapper.readValue(is, UnitMonster.class);
+        units.add(unitMonster);
+        
         return units;
     }
 }
