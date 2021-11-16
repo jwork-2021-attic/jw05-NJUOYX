@@ -20,7 +20,7 @@ public class UnitBrother extends Unit {
     public void prepare(){
         UnitSystem us = UnitSystem.getInstance();
         Position p = new Position(x,y);
-        assert(us.tryOccupy(this, p));
+        assert(us.tryOccupy(this, p) == this);
         us.setVisibleOfMe(p, character, color, true);
     }
 
@@ -44,7 +44,7 @@ public class UnitBrother extends Unit {
                 }
                 Position p = new Position(x, y);
                 Position np = new Position(nx, ny);
-                if (us.tryOccupy(this, np)) {
+                if (us.tryOccupy(this, np) == this) {
                     us.release(this, p);
                     us.setVisibleOfMe(p, character, color, false);
                     x = nx;

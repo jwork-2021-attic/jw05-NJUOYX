@@ -20,7 +20,7 @@ public class UnitMonster extends Unit {
     public void prepare() {
         UnitSystem us = UnitSystem.getInstance();
         Position p = new Position(x, y);
-        assert (us.tryOccupy(this, p));
+        assert (us.tryOccupy(this, p) == this);
         us.setVisibleOfMe(p, character, color, true);
     }
 
@@ -32,7 +32,7 @@ public class UnitMonster extends Unit {
                 UnitSystem us = UnitSystem.getInstance();
                 Position p = new Position(x, y);
                 Position np = new Position(x + dir[i][0], y + dir[i][1]);
-                if (us.tryOccupy(this, np)) {
+                if (us.tryOccupy(this, np) == this) {
                     us.release(this, p);
                     us.setVisibleOfMe(p, character, color, false);
                     us.setVisibleOfMe(np, character, color, true);

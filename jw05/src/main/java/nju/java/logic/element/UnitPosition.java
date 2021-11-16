@@ -10,13 +10,13 @@ public class UnitPosition extends Position{
 
     public Boolean getOccupied(){return owner != null;}
 
-    public synchronized Boolean tryOccupy(Unit owner){
+    public Unit getOwner(){return owner;}
+
+    public synchronized Unit tryOccupy(Unit owner){
         if(this.owner == null || this.owner == owner){
             this.owner = owner;
-            return true;
-        }else{
-            return false;
         }
+        return this.owner;
     }
 
     public synchronized void release(Unit owner){
