@@ -6,6 +6,7 @@ public abstract class Unit extends Thread {
     protected char character;
     protected Color color;
 
+
     public void setCharacter(char character) {
         this.character = character;
     }
@@ -28,4 +29,5 @@ public abstract class Unit extends Thread {
     public abstract void prepare();
 
     public abstract void underAttack(int damage);
+
 }

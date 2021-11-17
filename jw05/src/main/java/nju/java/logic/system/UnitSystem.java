@@ -16,6 +16,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class UnitSystem extends JFrame implements KeyListener {
 
@@ -27,7 +32,9 @@ public class UnitSystem extends JFrame implements KeyListener {
     private Queue<KeyEvent> press_input_queue;
     private Queue<KeyEvent> type_input_queue;
 
-    private List<Unit> units;
+    private Unit unitWall;
+    private Unit unitBrother;
+    private List<Unit> unitMonsters;
 
     private List<UnitPosition> positions;
 
@@ -49,13 +56,6 @@ public class UnitSystem extends JFrame implements KeyListener {
         press_input_queue = new LinkedList<>();
         type_input_queue = new LinkedList<>();
 
-        try {
-            units = new UnitCreator().getUnits();
-        } catch (Exception e) {
-            e.printStackTrace();
-            units = new LinkedList<>();
-        }
-
         terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
         add(terminal);
         pack();
@@ -64,15 +64,25 @@ public class UnitSystem extends JFrame implements KeyListener {
     }
 
     public void exec() {
-        units.forEach(unit->unit.prepare());
-        units.forEach(unit -> unit.start());
-        Boolean running = true;
-        while(running) {
-            running = false;
-            Iterator<Unit> iterator = units.iterator();
-            while(iterator.hasNext()) {
-                if(iterator.next().isAlive()){
-                    running = true;
+        UnitCreator unitCreator = UnitCreator.getInstance();
+
+        unitWall = unitCreator.getWall();
+        unitBrother = unitCreator.getBrother();
+
+        unitWall.prepare();
+        unitBrother.prepare();
+
+        unitWall.start();
+        unitBrother.start();
+
+        while (unitBrother.isAlive()) {
+            unitMonsters = unitCreator.getMonsters();
+            unitMonsters.forEach(unit->{unit.prepare();unit.start();});
+            for (Unit unit : unitMonsters) {
+                try {
+                    unit.join();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -123,7 +133,6 @@ public class UnitSystem extends JFrame implements KeyListener {
         }
     }
 
-
     public Unit tryOccupy(Unit unit, Position target) {
         assert (positions.contains(target));
         UnitPosition up = positions.get(positions.indexOf(target));
@@ -138,7 +147,7 @@ public class UnitSystem extends JFrame implements KeyListener {
 
     public void setVisibleOfMe(Position position, char character, Color color, Boolean on) {
         assert (positions.contains(position));
-        terminal.write(character, position.x, position.y, on ? color:Color.BLACK);
+        terminal.write(character, position.x, position.y, on ? color : Color.BLACK);
         repaint();
     }
 }

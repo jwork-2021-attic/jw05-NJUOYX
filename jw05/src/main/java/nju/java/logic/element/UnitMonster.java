@@ -47,6 +47,7 @@ public class UnitMonster extends Unit {
         }
     }
 
+
     @Override
     public void run() {
         int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
