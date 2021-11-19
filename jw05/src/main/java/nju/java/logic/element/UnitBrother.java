@@ -39,7 +39,7 @@ public class UnitBrother extends Unit {
     @Override
     public void run() {
         UnitSystem us = UnitSystem.getInstance();
-        while (!death) {
+        while (!death && alive) {
             synchronized (death) {
                 String move = us.getMoveInput();
                 int nx = x, ny = y;
@@ -70,12 +70,12 @@ public class UnitBrother extends Unit {
                     }
                 }
             }
-            us.await(this);
+            us.await(this,1000);//not serious
         } // running
 
         // now sleepping
         while (alive) {
-            us.await(this);
+            us.await(this,100);
         }
     }
 

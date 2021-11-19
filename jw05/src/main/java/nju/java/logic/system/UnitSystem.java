@@ -109,6 +109,10 @@ public class UnitSystem extends JFrame implements KeyListener {
                 }
             }
 
+            unitWall.interrupt();
+            unitBrother.interrupt();
+            unitMonsters.forEach(unit->unit.interrupt());
+
         } while (unitCreator.hasNext());
     }
 
@@ -179,6 +183,16 @@ public class UnitSystem extends JFrame implements KeyListener {
         try {
             System.out.println(unit.toString() + " calling await");
             cyclicBarrier.await();
+            System.out.println(unit.toString() + " keep going");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void await(Unit unit, int milliseconds){
+        try {
+            System.out.println(unit.toString() + " calling await");
+            cyclicBarrier.await(milliseconds, TimeUnit.MILLISECONDS);
             System.out.println(unit.toString() + " keep going");
         } catch (Exception e) {
             e.printStackTrace();

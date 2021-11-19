@@ -77,7 +77,7 @@ public class UnitMonster extends Unit {
 
         // now sleepping
         while (alive) {
-            UnitSystem.getInstance().await(this);
+            UnitSystem.getInstance().await(this,100);
         }
     }
 

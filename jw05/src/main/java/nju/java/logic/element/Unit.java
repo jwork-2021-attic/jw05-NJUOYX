@@ -37,7 +37,8 @@ public abstract class Unit extends Thread {
     /** 
      * system need this function to tell unit to end running state
     */
-    public void kill(){
+    @Override
+    public void interrupt() {
         alive = false;
     }
 

@@ -22,8 +22,8 @@ public class UnitWall extends Unit {
 
     @Override
     public void run() {
-        while(true){
-            UnitSystem.getInstance().await(this);
+        while(alive){
+            UnitSystem.getInstance().await(this,100);
         }
     }
 
