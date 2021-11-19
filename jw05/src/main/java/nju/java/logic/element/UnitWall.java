@@ -14,7 +14,7 @@ public class UnitWall extends Unit {
     public void prepare() {
         UnitSystem us = UnitSystem.getInstance();
         for (int i = 0; i < positions.length; i++) {
-            Position p = new Position(positions[i][0],positions[i][1]);
+            Position p = new Position(positions[i][0], positions[i][1]);
             us.tryOccupy(this, p);
             us.setVisibleOfMe(p, character, color, true);
         }
@@ -22,10 +22,13 @@ public class UnitWall extends Unit {
 
     @Override
     public void run() {
-
+        while(true){
+            UnitSystem.getInstance().await();
+        }
     }
+
     @Override
     public void underAttack(int damage) {
-        
+
     }
 }

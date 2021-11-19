@@ -68,11 +68,7 @@ public class UnitMonster extends Unit {
                     }
                 }
             }
-            try {
-                TimeUnit.MILLISECONDS.sleep(1000);
-            } catch (InterruptedException ir) {
-                System.out.println(ir);
-            }
+            UnitSystem.getInstance().await();
         }
     }
 }

@@ -62,12 +62,7 @@ public class UnitBrother extends Unit {
                     res.underAttack(1);
                 }
             }
-
-            try {
-                TimeUnit.MILLISECONDS.sleep(25);
-            } catch (InterruptedException ir) {
-                System.out.println(ir);
-            }
+            us.await();
         }
 
     }

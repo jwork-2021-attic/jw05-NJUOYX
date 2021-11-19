@@ -96,4 +96,11 @@ public class UnitCreator {
             return new LinkedList<>();
         }
     }
+
+    public void next() {
+    }
+
+    public Boolean hasNext() {
+        return false;
+    }
 }

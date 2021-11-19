@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,6 +38,8 @@ public class UnitSystem extends JFrame implements KeyListener {
     private List<Unit> unitMonsters;
 
     private List<UnitPosition> positions;
+
+    private CyclicBarrier cyclicBarrier;
 
     private static UnitSystem INSTANCE = new UnitSystem(10, 10);
 
@@ -66,26 +69,41 @@ public class UnitSystem extends JFrame implements KeyListener {
     public void exec() {
         UnitCreator unitCreator = UnitCreator.getInstance();
 
-        unitWall = unitCreator.getWall();
-        unitBrother = unitCreator.getBrother();
-
-        unitWall.prepare();
-        unitBrother.prepare();
-
-        unitWall.start();
-        unitBrother.start();
-
-        while (unitBrother.isAlive()) {
+        do {
+            unitWall = unitCreator.getWall();
+            unitBrother = unitCreator.getBrother();
             unitMonsters = unitCreator.getMonsters();
-            unitMonsters.forEach(unit->{unit.prepare();unit.start();});
-            for (Unit unit : unitMonsters) {
+
+            unitWall.prepare();
+            unitBrother.prepare();
+            unitMonsters.forEach(unit -> unit.prepare());
+
+            cyclicBarrier = new CyclicBarrier(2 + unitMonsters.size(), () -> {
                 try {
-                    unit.join();
+                    TimeUnit.MILLISECONDS.sleep(500);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            });
+
+            unitWall.start();
+            unitBrother.start();
+            unitMonsters.forEach(unit -> unit.start());
+
+            Boolean gameOver = false;
+            while (!gameOver) {
+                gameOver = true;
+                if (!unitBrother.isAlive()) {
+                    gameOver = true;
+                } else {
+                    for (Unit unit : unitMonsters) {
+                        if (unit.isAlive()) {
+                            gameOver = false;
+                        }
+                    }
+                }
             }
-        }
+        } while (unitCreator.hasNext());
     }
 
     public static UnitSystem getInstance() {
@@ -149,5 +167,13 @@ public class UnitSystem extends JFrame implements KeyListener {
         assert (positions.contains(position));
         terminal.write(character, position.x, position.y, on ? color : Color.BLACK);
         repaint();
+    }
+
+    public void await() {
+        try {
+            cyclicBarrier.await();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
