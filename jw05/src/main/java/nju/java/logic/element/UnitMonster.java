@@ -47,6 +47,10 @@ public class UnitMonster extends Unit {
         }
     }
 
+    @Override
+    public Boolean notRunning() {
+        return death;
+    }
 
     @Override
     public void run() {
@@ -68,7 +72,17 @@ public class UnitMonster extends Unit {
                     }
                 }
             }
-            UnitSystem.getInstance().await();
+            UnitSystem.getInstance().await(this);
+        } // running
+
+        // now sleepping
+        while (alive) {
+            UnitSystem.getInstance().await(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("UnitMonster:%d", getId());
     }
 }

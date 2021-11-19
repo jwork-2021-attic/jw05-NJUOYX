@@ -23,12 +23,22 @@ public class UnitWall extends Unit {
     @Override
     public void run() {
         while(true){
-            UnitSystem.getInstance().await();
+            UnitSystem.getInstance().await(this);
         }
     }
 
     @Override
     public void underAttack(int damage) {
 
+    }
+
+    @Override
+    public Boolean notRunning(){
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("UnitWall:%d",getId());
     }
 }

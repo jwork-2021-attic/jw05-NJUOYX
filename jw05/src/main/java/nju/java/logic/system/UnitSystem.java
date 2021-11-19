@@ -90,19 +90,25 @@ public class UnitSystem extends JFrame implements KeyListener {
             unitBrother.start();
             unitMonsters.forEach(unit -> unit.start());
 
-            Boolean gameOver = false;
-            while (!gameOver) {
-                gameOver = true;
-                if (!unitBrother.isAlive()) {
-                    gameOver = true;
-                } else {
-                    for (Unit unit : unitMonsters) {
-                        if (unit.isAlive()) {
-                            gameOver = false;
+            Boolean running = true;
+            while(running) {
+                running = false;
+                if(unitBrother.notRunning()) {
+                    running = false;
+                }else{
+                    for(Unit unit : unitMonsters) {
+                        if(!unit.notRunning()) {
+                            running = true;
                         }
                     }
                 }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         } while (unitCreator.hasNext());
     }
 
@@ -169,9 +175,11 @@ public class UnitSystem extends JFrame implements KeyListener {
         repaint();
     }
 
-    public void await() {
+    public void await(Unit unit) {
         try {
+            System.out.println(unit.toString() + " calling await");
             cyclicBarrier.await();
+            System.out.println(unit.toString() + " keep going");
         } catch (Exception e) {
             e.printStackTrace();
         }
