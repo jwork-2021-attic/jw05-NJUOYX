@@ -15,6 +15,7 @@ import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.Executor;
@@ -32,9 +33,9 @@ public class UnitSystem extends JFrame implements KeyListener {
     private Queue<KeyEvent> press_input_queue;
     private Queue<KeyEvent> type_input_queue;
 
-    private Unit unitWall;
-    private Unit unitBrother;
-    private List<Unit> unitMonsters;
+    private Map<Integer, Unit> aliveUnits;
+
+    private Boolean gameOver = false;
 
     private List<UnitPosition> positions;
 
@@ -65,27 +66,21 @@ public class UnitSystem extends JFrame implements KeyListener {
 
     public void exec() {
         UnitCreator unitCreator = UnitCreator.getInstance();
-
-        unitWall = unitCreator.getWall();
-        unitBrother = unitCreator.getBrother();
-
-        unitWall.prepare();
-        unitBrother.prepare();
-
-        unitWall.start();
-        unitBrother.start();
-
-        while (unitBrother.isAlive()) {
-            unitMonsters = unitCreator.getMonsters();
-            unitMonsters.forEach(unit->{unit.prepare();unit.start();});
-            for (Unit unit : unitMonsters) {
+        do {
+            List<Unit> units = unitCreator.getUnits();
+            units.forEach(unit -> unit.prepare());
+            units.forEach(unit -> unit.start());
+            do {
                 try {
-                    unit.join();
+                    TimeUnit.MILLISECONDS.sleep(5000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        }
+
+                if(gameOver){return ;}//sudden death
+
+            } while (!aliveUnits.isEmpty());
+        } while (unitCreator.next());
     }
 
     public static UnitSystem getInstance() {
@@ -143,6 +138,23 @@ public class UnitSystem extends JFrame implements KeyListener {
         assert (positions.contains(target));
         UnitPosition up = positions.get(positions.indexOf(target));
         up.release(unit);
+    }
+
+    public void setGameOver() {
+        gameOver = true;
+    }
+
+    public Unit getUnit(int id){
+        return aliveUnits.get(id);
+    }
+
+    public Boolean register(int id ,Unit unit){
+        Integer nid = Integer.valueOf(id);
+        if(aliveUnits.get(nid) == null){
+            aliveUnits.put(nid, unit);
+            return true;
+        }
+        return false;
     }
 
     public void setVisibleOfMe(Position position, char character, Color color, Boolean on) {
