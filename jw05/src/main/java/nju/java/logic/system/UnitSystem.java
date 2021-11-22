@@ -12,6 +12,7 @@ import java.awt.Color;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,16 +47,19 @@ public class UnitSystem extends JFrame implements KeyListener {
 
         this.rangeX = rangeX;
         this.rangeY = rangeY;
+        
+        press_input_queue = new LinkedList<>();
+        type_input_queue = new LinkedList<>();
 
-        positions = new LinkedList<UnitPosition>();
+        aliveUnits = new HashMap<>();
+
+        positions = new LinkedList<>();
+
         for (int x = 0; x < rangeX; x++) {
             for (int y = 0; y < rangeY; y++) {
                 positions.add(new UnitPosition(x, y));
             }
         }
-
-        press_input_queue = new LinkedList<>();
-        type_input_queue = new LinkedList<>();
 
         terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
         add(terminal);
@@ -72,7 +76,7 @@ public class UnitSystem extends JFrame implements KeyListener {
             units.forEach(unit -> unit.start());
             do {
                 try {
-                    TimeUnit.MILLISECONDS.sleep(5000);
+                    TimeUnit.MILLISECONDS.sleep(25);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,13 +133,11 @@ public class UnitSystem extends JFrame implements KeyListener {
     }
 
     public Unit tryOccupy(Unit unit, Position target) {
-        assert (positions.contains(target));
         UnitPosition up = positions.get(positions.indexOf(target));
         return up.tryOccupy(unit);
     }
 
     public void release(Unit unit, Position target) {
-        assert (positions.contains(target));
         UnitPosition up = positions.get(positions.indexOf(target));
         up.release(unit);
     }
@@ -157,8 +159,12 @@ public class UnitSystem extends JFrame implements KeyListener {
         return false;
     }
 
+    public void remove(int id, Unit unit){
+        Unit res = aliveUnits.remove(id);
+        assert(res == unit);
+    }
+
     public void setVisibleOfMe(Position position, char character, Color color, Boolean on) {
-        assert (positions.contains(position));
         terminal.write(character, position.x, position.y, on ? color : Color.BLACK);
         repaint();
     }

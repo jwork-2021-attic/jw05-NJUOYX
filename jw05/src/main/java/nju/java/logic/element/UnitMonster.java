@@ -23,56 +23,95 @@ public class UnitMonster extends Unit {
         this.hp = hp;
     }
 
+    private Position traceTarget(int tx, int ty) {
+        int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+
+        for (int i = 0; i < dir.length; i++) {
+            int nx = x + dir[i][0];
+            int ny = y + dir[i][1];
+            if (distance(tx, ty, nx, ny) < distance(tx, ty, x, y)) {
+                return new Position(nx, ny);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * return null if move success,otherwise return the owner of the position
+     */
+    private Unit tryMove(UnitSystem unitSystem, Position np) {
+        Position p = new Position(x, y);
+        Unit res = unitSystem.tryOccupy(this, np);
+        if (res == this) {
+            unitSystem.release(this, p);
+            unitSystem.setVisibleOfMe(p, character, color, false);
+            x = np.x;
+            y = np.y;
+            unitSystem.setVisibleOfMe(np, character, color, true);
+            return null;
+        } else {
+            return res;
+        }
+    }
+
+    private void terminate() {
+        UnitSystem us = UnitSystem.getInstance();
+        Position p = new Position(x, y);
+        us.setVisibleOfMe(p, character, color, false);
+        us.release(this, p);
+        us.remove(id, this);
+    }
+
     @Override
     public void prepare() {
         UnitSystem us = UnitSystem.getInstance();
         Position p = new Position(x, y);
-        assert (us.tryOccupy(this, p) == this);
+        us.tryOccupy(this, p);
         us.setVisibleOfMe(p, character, color, true);
+        id = 10;
+        while (!us.register(id, this))
+            id++;
     }
 
     @Override
     public void underAttack(int damage) {
-        synchronized (death) {
-            if (!death) {
-                hp -= damage;
-                if (hp <= 0) {
-                    UnitSystem us = UnitSystem.getInstance();
-                    Position p = new Position(x, y);
-                    us.setVisibleOfMe(p, character, color, false);
-                    us.release(this, p);
-                    death = true;
-                }
+        if (!death) {
+            hp -= damage;
+            if (hp <= 0) {
+                death = true;
             }
         }
     }
 
-
     @Override
     public void run() {
-        int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
         while (!death) {
-            synchronized (death) {
-                for (int i = 0; i < 4; ++i) {
-                    UnitSystem us = UnitSystem.getInstance();
-                    Position p = new Position(x, y);
-                    Position np = new Position(x + dir[i][0], y + dir[i][1]);
-                    if (us.tryOccupy(this, np) == this) {
-                        us.release(this, p);
-                        us.setVisibleOfMe(p, character, color, false);
-                        us.setVisibleOfMe(np, character, color, true);
-                        x = np.x;
-                        y = np.y;
-                        break;
-                    }
+            operationProcess();
+
+            UnitSystem us = UnitSystem.getInstance();
+            Unit target = us.getUnit(0);
+            if (target == null) {
+                terminate();
+                return;
+            }
+
+            Position np = traceTarget(target.getX(), target.getY());
+            if (np == null) {
+                frameSleep(1000);
+                continue;
+            }
+
+            Unit res = tryMove(us, np);
+            if (res != null) {
+                if (res instanceof UnitBrother) {
+                    res.addAttackOperation(1);
                 }
             }
-            try {
-                TimeUnit.MILLISECONDS.sleep(1000);
-            } catch (InterruptedException ir) {
-                System.out.println(ir);
-            }
+
+            frameSleep(1000);
+
         }
+        terminate();
     }
 }

@@ -11,5 +11,6 @@ public class App {
         unitsystem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         unitsystem.setVisible(true);
         unitsystem.exec();
+        System.out.println("Game Over!");
     }
 }
