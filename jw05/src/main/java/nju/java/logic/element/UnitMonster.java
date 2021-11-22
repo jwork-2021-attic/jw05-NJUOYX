@@ -62,6 +62,11 @@ public class UnitMonster extends Unit {
         us.remove(id, this);
     }
 
+    private void mainLogic(){
+        
+    }
+
+
     @Override
     public void prepare() {
         UnitSystem us = UnitSystem.getInstance();

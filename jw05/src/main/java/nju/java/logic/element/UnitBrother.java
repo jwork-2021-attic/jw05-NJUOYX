@@ -10,6 +10,8 @@ public class UnitBrother extends Unit {
     private int hp;
     private Boolean death = false;
 
+    private String direction = "up";
+
     public void setX(int x) {
         this.x = x;
     }
@@ -31,14 +33,21 @@ public class UnitBrother extends Unit {
         int nx = x, ny = y;
         if (move != null) {
             if (move == "up") {
+                direction = move;
                 ny--;
             } else if (move == "down") {
+                direction = move;
                 ny++;
             } else if (move == "left") {
+                direction = move;
                 nx--;
             } else if (move == "right") {
+                direction = move;
                 nx++;
-            } else {
+            }else if(move == "attack"){
+                doAttack(us, direction);
+            }
+             else {
                 return null;
             }
 
@@ -67,6 +76,10 @@ public class UnitBrother extends Unit {
         us.remove(id,this);
     }
 
+    private void doAttack(UnitSystem us, String direction){
+        ElementFactory.getBullet(direction, x, y, 1).start();
+    }
+
     @Override
     public void prepare() {
         UnitSystem us = UnitSystem.getInstance();
@@ -90,10 +103,7 @@ public class UnitBrother extends Unit {
     public void run() {
         UnitSystem us = UnitSystem.getInstance();
         while (!death) {
-            Unit res = move(us);
-            if (res != null) {
-                res.addAttackOperation(1);
-            }
+            move(us);
 
             Boolean roundPass = true;
             for (int i = 10; i < 20; ++i) {

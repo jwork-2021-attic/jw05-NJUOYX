@@ -122,6 +122,9 @@ public class UnitSystem extends JFrame implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 res = "right";
                 break;
+            case KeyEvent.VK_SPACE:
+                res = "attack";
+                break;
             default:
                 res = null;
                 break;
