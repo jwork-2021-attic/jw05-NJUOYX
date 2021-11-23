@@ -1,22 +1,49 @@
 package nju.java.logic.element;
 
-interface Operation{
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
-}
+import nju.java.logic.element.opration.Operation;
 
-class AttackOperation implements Operation{
+public abstract class Element extends Thread {
 
-}
+    protected Boolean running;
 
-class MoveOperation implements Operation{}
+    protected GameSystem gameSystem;
 
+    protected Queue<Operation> operations = new ConcurrentLinkedQueue<>();
 
-public abstract class Element extends Thread{
+    public void init(GameSystem gameSystem) {
+        running = true;
+        this.gameSystem = gameSystem;
+    }
+
+    public Boolean isRunning() {
+        return running;
+    }
+
     @Override
-    public void run(){}
+    public void interrupt() {
+        running = false;
+    }
 
-    public void process(AttackOperation operation){}
+    public void submit(Operation operation) {
+        operations.add(operation);
+    }
 
-    public void process(MoveOperation operation){}
+    protected Operation getOperation() {
+        return operations.poll();
+    }
+
+    protected void eSleep(int milliseconds){
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliseconds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void process(Operation operation){}
 
 }

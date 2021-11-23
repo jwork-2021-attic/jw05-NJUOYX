@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
-import nju.java.logic.element.Position;
 import nju.java.logic.element.Unit;
 import nju.java.logic.element.UnitPosition;
 

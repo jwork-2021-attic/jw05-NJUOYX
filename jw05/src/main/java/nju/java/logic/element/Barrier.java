@@ -1,9 +1,10 @@
 package nju.java.logic.element;
+
 import java.awt.Color;
 
-public class Barrier extends StablePBElement {
+public class Barrier extends PassiveElement {
     private int[][] barriers;
-    
+
     private char character;
 
     private Color color;
@@ -19,4 +20,24 @@ public class Barrier extends StablePBElement {
     public void setCharacter(char character) {
         this.character = character;
     }
+
+    @Override
+    public void init(GameSystem gameSystem) {
+        super.init(gameSystem);
+        for (int i = 0; i < barriers.length; i++) {
+            Element e = gameSystem.tryOccupy(barriers[i][0], barriers[i][1], this);
+            assert (e == this);
+            gameSystem.display(barriers[i][0], barriers[i][1], character, color, true);
+        }
+    }
+
+    @Override
+    public void interrupt(){
+        super.interrupt();
+        for(int i = 0; i < barriers.length; i++) {
+            gameSystem.release(barriers[i][0], barriers[i][1], this);
+            gameSystem.display(barriers[i][0], barriers[i][1],character, color, false);            
+        }
+    }
+
 }
