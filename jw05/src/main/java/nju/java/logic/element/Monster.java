@@ -1,6 +1,7 @@
 package nju.java.logic.element;
 
 import nju.java.logic.element.opration.Attack;
+import nju.java.logic.element.opration.Operation;
 
 public abstract class Monster extends ActiveElement {
 
@@ -31,6 +32,13 @@ public abstract class Monster extends ActiveElement {
         Element res = moveTo(np[0], np[1]);
         if(res!=this){
             attack(res);
+        }
+    }
+
+    @Override
+    public void process(Operation operation){
+        if(operation instanceof Attack){
+            interrupt();
         }
     }
 
