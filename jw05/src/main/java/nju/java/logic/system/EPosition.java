@@ -1,6 +1,6 @@
 package nju.java.logic.system;
 
-import javax.lang.model.element.Element;
+import nju.java.logic.element.Element;
 
 public class EPosition extends Position{
 

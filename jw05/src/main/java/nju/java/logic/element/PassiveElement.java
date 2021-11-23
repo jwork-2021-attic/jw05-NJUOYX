@@ -11,7 +11,7 @@ public abstract class PassiveElement extends Element{
     }
 
     protected void await(){
-        eSleep(5);
+        eSleep(50);
     }
 
     protected void passiveProcessor() {

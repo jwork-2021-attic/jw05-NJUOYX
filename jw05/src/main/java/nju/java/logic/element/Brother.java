@@ -29,7 +29,7 @@ public class Brother extends ActiveElement {
     }
 
     protected void attack() {
-        new Bullet(x,y,direction).start();
+        new Bullet(x,y,direction,gameSystem).start();
     }
 
     private void resolveInput(String str) {

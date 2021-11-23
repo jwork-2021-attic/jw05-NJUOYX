@@ -52,13 +52,22 @@ public abstract class ActiveElement extends PassiveElement {
         gameSystem.display(x, y, character, color, false);
     }
 
+    class PassiveProcessor implements Runnable {
+        ActiveElement activeElement;
+        public PassiveProcessor(ActiveElement activeElement) {
+            this.activeElement = activeElement;
+        }
+        @Override
+        public void run(){
+            while(activeElement.isRunning()) {
+                activeElement.passiveProcessor();
+            }
+        }
+    }
+
     @Override
     public void run() {
-        new Thread(() -> {
-            while (isRunning()) {
-                passiveProcessor();
-            }
-        }).start();
+        new Thread(new PassiveProcessor(this)).start();
 
         while (isRunning()) {
             activeProcessor();
