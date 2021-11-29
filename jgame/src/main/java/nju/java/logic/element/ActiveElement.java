@@ -1,7 +1,6 @@
 package nju.java.logic.element;
 
 import java.awt.Color;
-import java.util.concurrent.TimeUnit;
 
 public abstract class ActiveElement extends PassiveElement {
 
@@ -52,27 +51,24 @@ public abstract class ActiveElement extends PassiveElement {
         gameSystem.display(x, y, character, color, false);
     }
 
-    class PassiveProcessor implements Runnable {
+    class ActiveProcessor implements Runnable {
         ActiveElement activeElement;
-        public PassiveProcessor(ActiveElement activeElement) {
+        public ActiveProcessor(ActiveElement activeElement) {
             this.activeElement = activeElement;
         }
         @Override
         public void run(){
             while(activeElement.isRunning()) {
-                activeElement.passiveProcessor();
+                activeElement.activeProcessor();
+                frameSleep();
             }
         }
     }
 
     @Override
     public void run() {
-        new Thread(new PassiveProcessor(this)).start();
-
-        while (isRunning()) {
-            activeProcessor();
-            frameSleep();
-        }
+        new Thread(new ActiveProcessor(this)).start();
+        super.run();
     }
 
     protected Element moveTo(int nx, int ny) {
