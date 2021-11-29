@@ -32,10 +32,6 @@ public abstract class Element extends Thread {
         operations.add(operation);
     }
 
-    protected Operation getOperation() {
-        return operations.poll();
-    }
-
     protected void eSleep(int milliseconds){
         try {
             TimeUnit.MILLISECONDS.sleep(milliseconds);

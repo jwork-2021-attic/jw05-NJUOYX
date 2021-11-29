@@ -10,16 +10,14 @@ public abstract class PassiveElement extends Element{
         }
     }
 
-    protected void await(){
-        eSleep(50);
+    protected synchronized void await(){
+        eSleep(10);
     }
 
     protected void passiveProcessor() {
-        Operation op = getOperation();
-        if(op == null){
-            await();
-        }else{
-            process(op);
+        while(!operations.isEmpty()){
+            process(operations.poll());
         }
+        await();
     }
 }
