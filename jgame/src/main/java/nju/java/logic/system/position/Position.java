@@ -1,4 +1,4 @@
-package nju.java.logic.system;
+package nju.java.logic.system.position;
 
 public class Position {
     public int x;

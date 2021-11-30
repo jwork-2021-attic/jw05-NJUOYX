@@ -22,12 +22,12 @@ public class Barrier extends PassiveElement {
     }
 
     @Override
-    public void init(GameSystem gameSystem) {
-        super.init(gameSystem);
+    public void init(GAPI GAPI) {
+        super.init(GAPI);
         for (int i = 0; i < barriers.length; i++) {
-            Element e = gameSystem.tryOccupy(barriers[i][0], barriers[i][1], this);
+            Element e = GAPI.tryOccupy(barriers[i][0], barriers[i][1], this);
             assert (e == this);
-            gameSystem.display(barriers[i][0], barriers[i][1], character, color, true);
+            GAPI.display(barriers[i][0], barriers[i][1], character, color, true);
         }
     }
 
@@ -35,8 +35,8 @@ public class Barrier extends PassiveElement {
     public void interrupt(){
         super.interrupt();
         for(int i = 0; i < barriers.length; i++) {
-            gameSystem.release(barriers[i][0], barriers[i][1], this);
-            gameSystem.display(barriers[i][0], barriers[i][1],character, color, false);            
+            GAPI.release(barriers[i][0], barriers[i][1], this);
+            GAPI.display(barriers[i][0], barriers[i][1],character, color, false);
         }
     }
 

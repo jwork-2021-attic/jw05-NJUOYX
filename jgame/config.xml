@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>jgame config file</comment>
+<entry key="screen_y">20</entry>
+<entry key="screen_x">20</entry>
+</properties>

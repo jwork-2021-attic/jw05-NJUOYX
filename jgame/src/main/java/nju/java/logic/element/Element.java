@@ -6,17 +6,17 @@ import java.util.concurrent.TimeUnit;
 
 import nju.java.logic.element.opration.Operation;
 
-public abstract class Element extends Thread {
+public abstract class Element extends Thread{
 
     protected Boolean running;
 
-    protected GameSystem gameSystem;
+    protected GAPI GAPI;
 
     protected Queue<Operation> operations = new ConcurrentLinkedQueue<>();
 
-    public void init(GameSystem gameSystem) {
+    public void init(GAPI GAPI) {
         running = true;
-        this.gameSystem = gameSystem;
+        this.GAPI = GAPI;
     }
 
     public Boolean isRunning() {

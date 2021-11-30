@@ -1,7 +1,5 @@
 package nju.java.logic.element;
 
-import java.awt.Color;
-
 public class Brother extends ActiveElement {
 
     private void resolveMove(String str) {
@@ -29,7 +27,7 @@ public class Brother extends ActiveElement {
     }
 
     protected void attack() {
-        new Bullet(x,y,direction,gameSystem).start();
+        new Bullet(x,y,direction, GAPI).start();
     }
 
     private void resolveInput(String str) {
@@ -53,7 +51,7 @@ public class Brother extends ActiveElement {
 
     @Override
     public void activeProcessor() {
-        String str = gameSystem.getInput();
+        String str = GAPI.getInput();
         resolveInput(str);
     }
 

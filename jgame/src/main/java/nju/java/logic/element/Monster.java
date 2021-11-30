@@ -3,14 +3,14 @@ package nju.java.logic.element;
 import nju.java.logic.element.opration.Attack;
 import nju.java.logic.element.opration.Operation;
 
-public abstract class Monster extends ActiveElement {
+public class Monster extends ActiveElement {
 
     protected void attack(Element target){
         target.submit(new Attack());
     }
 
     protected int[] moveStrategy() {
-        ActiveElement brother = (ActiveElement) gameSystem.getBrother();
+        ActiveElement brother = (ActiveElement) GAPI.getElement("Brother");
         int bx = brother.getX();
         int by = brother.getY();
 

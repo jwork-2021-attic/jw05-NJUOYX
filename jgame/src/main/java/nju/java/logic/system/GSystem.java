@@ -1,145 +1,99 @@
 package nju.java.logic.system;
 
-import nju.java.logic.element.Brother;
 import nju.java.logic.element.Element;
-import nju.java.logic.element.GameSystem;
+import nju.java.logic.element.GAPI;
+import nju.java.logic.system.engine.Engine;
+import nju.java.logic.system.position.EPosition;
+import nju.java.logic.system.position.Position;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.LinkedList;
+import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 import java.util.List;
-import java.util.Queue;
 
-import javax.swing.JFrame;
+public class GSystem implements GAPI {
 
-import asciiPanel.AsciiFont;
-import asciiPanel.AsciiPanel;
+    private Engine engine;
+    private String configFilePath;
+    private Properties properties;
+    private List<EPosition>positionList;
+    private Map<String, Element> recorder = new HashMap<>();
 
-public class GSystem extends JFrame implements GameSystem, KeyListener {
-
-    private int rangeX;
-    private int rangeY;
-
-    private AsciiPanel terminal;
-
-    private Queue<KeyEvent> press_input_queue = new LinkedList<>();
-
-    private List<EPosition> positions = new LinkedList<>();
-
-    private List<Element> elements;
-
-    private void UIInit(int rangeX, int rangeY) {
-        this.rangeX = rangeX;
-        this.rangeY = rangeY;
-        terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
-        add(terminal);
-        pack();
-        addKeyListener(this);
-        repaint();
+    /**
+     * GAPI controls the whole game logic
+     * @param engine engine as UI
+     * @param configFilePath app config file path, in this class it is assumed to be a correct path
+    */
+    public GSystem(Engine engine, String configFilePath) throws IOException{
+        this.engine = engine;
+        this.configFilePath = configFilePath;
+        initGAPI();
+        initEngine();
     }
 
-    private void GameSystemInit() {
-        for (int x = 0; x < rangeX; x++) {
-            for (int y = 0; y < rangeY; y++) {
-                positions.add(new EPosition(x, y));
+
+
+    private void initGAPI() throws IOException {
+        FileInputStream fs = new FileInputStream(configFilePath);
+        properties = new Properties();
+        properties.loadFromXML(fs);
+    }
+
+    private void initEngine(){
+        String rangeX = properties.getProperty("rangeX");
+        String rangeY = properties.getProperty("rangeY");
+        engine.resizeScreen(Integer.getInteger(rangeX),Integer.getInteger(rangeY));
+    }
+
+    private void initEPosition(){
+        positionList = new ArrayList<>();
+        int rangeX = engine.getRangeX();
+        int rangeY = engine.getRangeY();
+        for(int x = 0;x<rangeX;++x){
+            for(int y = 0;y<rangeY;++y){
+                positionList.add(new EPosition(x, y));
             }
         }
     }
 
-    public GSystem(int rangeX, int rangeY) {
-        UIInit(rangeX, rangeY);
-        GameSystemInit();
-    }
-
-    public void exec(){
-        ElementCreator elementCreator = ElementCreator.getInstance();
-        elements = elementCreator.getElements();
-        elements.forEach(e->e.init(this));
-        elements.forEach(e->e.start());
+    public void run(){
 
     }
 
     @Override
-    public void display(int x, int y, char character, Color color, Boolean visiable) {
-        terminal.write(character, x, y, visiable ? color : Color.BLACK);
-        repaint();
+    public void display(int x, int y, char character, Color color, Boolean visible) {
+        engine.display(x, y, character, color, visible);
     }
 
     @Override
     public Element tryOccupy(int x, int y, Element requester) {
-        int index = positions.indexOf(new Position(x, y));
-        assert (index >= 0);
-        return positions.get(index).tryOccupy(requester);
+        int index = positionList.indexOf(new Position(x,y));
+        assert(index>=0);
+        return positionList.get(index).tryOccupy(requester);
     }
 
     @Override
     public Element exsit(int x, int y) {
-        int index = positions.indexOf(new Position(x, y));
-        assert (index >= 0);
-        return positions.get(index).getOwner();
+        int index = positionList.indexOf(new Position(x,y));
+        assert(index>=0);
+        return positionList.get(index).getOwner();
     }
 
     @Override
     public void release(int x, int y, Element element) {
-        int index = positions.indexOf(new Position(x, y));
-        assert (index >= 0);
-        positions.get(index).release(element);
+        int index = positionList.indexOf(new Position(x,y));
+        assert(index>=0);
+        positionList.get(index).release(element);
     }
 
     @Override
     public String getInput() {
-        KeyEvent e = press_input_queue.poll();
-        if (e != null) {
-            String res;
-            switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                res = "up";
-                break;
-            case KeyEvent.VK_DOWN:
-                res = "down";
-                break;
-            case KeyEvent.VK_LEFT:
-                res = "left";
-                break;
-            case KeyEvent.VK_RIGHT:
-                res = "right";
-                break;
-            case KeyEvent.VK_SPACE:
-                res = "attack";
-                break;
-            default:
-                res = null;
-                break;
-            }
-            return res;
-        } else {
-            return null;
-        }
+        return engine.getInput();
     }
 
     @Override
-    public Element getBrother() {
-        for(Element element: elements) {
-            if(element instanceof Brother){
-                return element;
-            }
-        }
-        assert(false);
-        return null;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        press_input_queue.add(e);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
+    public Element getElement(String name){
+        return recorder.get(name);
     }
 }

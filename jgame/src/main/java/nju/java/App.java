@@ -1,15 +1,23 @@
 package nju.java;
 
-import javax.swing.JFrame;
-
 import nju.java.logic.system.GSystem;
+import nju.java.logic.system.engine.Engine;
+import nju.java.logic.system.engine.AsciiEngine;
+
+import java.io.IOException;
 
 
 public class App {
     public static void main(String args[]){
-        GSystem unitsystem = new GSystem(10,10);
-        unitsystem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        unitsystem.setVisible(true);
-        unitsystem.exec();
+        final String configFilePath = "config.xml";
+        Engine engine = new AsciiEngine();
+        GSystem gapi = null;
+        try {
+            gapi = new GSystem(engine, configFilePath);
+        }catch (IOException e){
+            System.err.println("config.xml is broken!");
+            e.printStackTrace();
+        }
+        gapi.run();
     }
 }

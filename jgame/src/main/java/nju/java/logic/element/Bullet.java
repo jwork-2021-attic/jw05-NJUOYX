@@ -7,7 +7,7 @@ public class Bullet extends ActiveElement {
     private int[] dir;
     
 
-    public Bullet(int x, int y, String sdir, GameSystem gameSystem) {
+    public Bullet(int x, int y, String sdir, GAPI GAPI) {
         this.character = 7;
         setColor(new int[]{255,255,255});
 
@@ -30,9 +30,9 @@ public class Bullet extends ActiveElement {
         this.x = x + dir[0];
         this.y = y + dir[1];
         Element res = null;
-        res = gameSystem.exsit(this.x, this.y);
+        res = GAPI.exsit(this.x, this.y);
         if(res == null){
-            init(gameSystem);
+            init(GAPI);
         }else{
             res.submit(new Attack());
             running = false;
@@ -45,7 +45,7 @@ public class Bullet extends ActiveElement {
     public void activeProcessor() {
         int nx = x + dir[0];
         int ny = y + dir[1];
-        Element res = gameSystem.exsit(nx, ny);
+        Element res = GAPI.exsit(nx, ny);
         if(res == null){
             moveTo(nx, ny);
         }else{

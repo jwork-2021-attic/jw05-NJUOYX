@@ -37,18 +37,18 @@ public abstract class ActiveElement extends PassiveElement {
     }
 
     @Override
-    public void init(GameSystem gameSystem) {
-        super.init(gameSystem);
-        Element e = gameSystem.tryOccupy(x, y, this);
+    public void init(GAPI GAPI) {
+        super.init(GAPI);
+        Element e = GAPI.tryOccupy(x, y, this);
         assert (e == this);
-        gameSystem.display(x, y, character, color, true);
+        GAPI.display(x, y, character, color, true);
     }
 
     @Override
     public void interrupt() {
         super.interrupt();
-        gameSystem.release(x, y, this);
-        gameSystem.display(x, y, character, color, false);
+        GAPI.release(x, y, this);
+        GAPI.display(x, y, character, color, false);
     }
 
     class ActiveProcessor implements Runnable {
@@ -72,13 +72,13 @@ public abstract class ActiveElement extends PassiveElement {
     }
 
     protected Element moveTo(int nx, int ny) {
-        Element e = gameSystem.tryOccupy(nx, ny, this);
+        Element e = GAPI.tryOccupy(nx, ny, this);
         if (e == this) {
-            gameSystem.release(x, y, this);
-            gameSystem.display(x, y, character, color, false);
+            GAPI.release(x, y, this);
+            GAPI.display(x, y, character, color, false);
             x = nx;
             y = ny;
-            gameSystem.display(x, y, character, color, true);
+            GAPI.display(x, y, character, color, true);
         }
         return e;
     }
