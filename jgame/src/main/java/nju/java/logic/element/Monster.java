@@ -10,7 +10,7 @@ public class Monster extends ActiveElement {
     }
 
     protected int[] moveStrategy() {
-        ActiveElement brother = (ActiveElement) GAPI.getElement("Brother");
+        ActiveElement brother = (ActiveElement) GAPI.getElement("brother");
         int bx = brother.getX();
         int by = brother.getY();
 
@@ -30,7 +30,7 @@ public class Monster extends ActiveElement {
     protected void strategy() {
         int[] np = moveStrategy();
         Element res = moveTo(np[0], np[1]);
-        if(res!=this){
+        if(res instanceof Brother){
             attack(res);
         }
     }
@@ -50,5 +50,10 @@ public class Monster extends ActiveElement {
     @Override
     public void frameSleep(){
         eSleep(1000);
+    }
+
+    @Override
+    public String toString(){
+        return "monster_"+getId();
     }
 }

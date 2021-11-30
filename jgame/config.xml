@@ -2,6 +2,14 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>jgame config file</comment>
-<entry key="screen_y">20</entry>
-<entry key="screen_x">20</entry>
+<entry key="range_x">20</entry>
+<entry key="range_y">20</entry>
+<entry key="barrier">Barrier_20x20</entry>
+    <entry key="brother">Brother</entry>
+    <entry key="brother_x">10</entry>
+    <entry key="brother_y">10</entry>
+    <entry key="monster">Monster</entry>
+    <entry key="monster_x">1</entry>
+    <entry key="monster_y">1</entry>
+    <entry key="monster_num">10</entry>
 </properties>

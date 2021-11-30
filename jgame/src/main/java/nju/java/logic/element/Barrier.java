@@ -22,13 +22,15 @@ public class Barrier extends PassiveElement {
     }
 
     @Override
-    public void init(GAPI GAPI) {
+    public Boolean init(GAPI GAPI) {
         super.init(GAPI);
         for (int i = 0; i < barriers.length; i++) {
             Element e = GAPI.tryOccupy(barriers[i][0], barriers[i][1], this);
             assert (e == this);
             GAPI.display(barriers[i][0], barriers[i][1], character, color, true);
         }
+        GAPI.register(toString(),this);
+        return true;
     }
 
     @Override
@@ -40,4 +42,8 @@ public class Barrier extends PassiveElement {
         }
     }
 
+    @Override
+    public String toString(){
+        return "barrier_"+getId();
+    }
 }

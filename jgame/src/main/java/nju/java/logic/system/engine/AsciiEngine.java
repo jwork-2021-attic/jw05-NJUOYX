@@ -17,6 +17,9 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
     private Queue<KeyEvent>press_input_queue;
 
     public AsciiEngine(){
+        super();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
         rangeX = 10;
         rangeY = 10;
         terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);

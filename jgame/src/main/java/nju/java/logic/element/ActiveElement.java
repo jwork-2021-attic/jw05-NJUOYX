@@ -37,11 +37,15 @@ public abstract class ActiveElement extends PassiveElement {
     }
 
     @Override
-    public void init(GAPI GAPI) {
+    public Boolean init(GAPI GAPI) {
         super.init(GAPI);
         Element e = GAPI.tryOccupy(x, y, this);
-        assert (e == this);
+        if(e != this){
+            return false;
+        }
+        GAPI.register(toString(), this);
         GAPI.display(x, y, character, color, true);
+        return true;
     }
 
     @Override

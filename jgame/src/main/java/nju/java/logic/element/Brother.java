@@ -61,4 +61,8 @@ public class Brother extends ActiveElement {
         eSleep(25);
     }
 
+    @Override
+    public String toString(){
+        return "brother_"+getId();
+    }
 }

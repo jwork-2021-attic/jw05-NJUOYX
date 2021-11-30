@@ -20,7 +20,9 @@ public class ElementFactory {
 
         ObjectMapper objectMapper = Initial.getINSTANCE().getObjectMapper();
         try {
-            return (Element)objectMapper.readValue(inputStream, Class.forName(name));
+            String className = name.split("_")[0];
+            className = "nju.java.logic.element."+className;
+            return (Element)objectMapper.readValue(inputStream, Class.forName(className));
         }catch (Exception e){
             e.printStackTrace();
         }

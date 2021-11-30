@@ -52,4 +52,18 @@ public interface GAPI {
      * @return return the typical element if it exists and name is correct,otherwise returns null
      */
     Element getElement(String name);
+
+    /**
+     * register an element so that other element could find it
+     * @param name
+     * @param element
+     */
+    void register(String name ,Element element);
+
+    /**
+     * unregister an element
+     * @param name
+     * @param element only the owner of the name could unregister the name
+     */
+    void unregister(String name,Element element);
 }

@@ -14,9 +14,10 @@ public abstract class Element extends Thread{
 
     protected Queue<Operation> operations = new ConcurrentLinkedQueue<>();
 
-    public void init(GAPI GAPI) {
+    public Boolean init(GAPI GAPI) {
         running = true;
         this.GAPI = GAPI;
+        return true;
     }
 
     public Boolean isRunning() {
