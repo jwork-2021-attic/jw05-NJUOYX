@@ -5,35 +5,35 @@ import nju.java.logic.element.opration.Attack;
 public class Bullet extends ActiveElement {
 
     private int[] dir;
-    
+
 
     public Bullet(int x, int y, String sdir, GAPI GAPI) {
         this.character = 7;
-        setColor(new int[]{255,255,255});
+        setColor(new int[]{255, 255, 255});
 
         switch (sdir) {
-        case "up":
-            dir = new int[] { 0, -1 };
-            break;
-        case "down":
-            dir = new int[] { 0, 1 };
-            break;
-        case "left":
-            dir = new int[] { -1, 0 };
-            break;
-        case "right":
-            dir = new int[] { 1, 0 };
-            break;
-        default:
-            break;
+            case "up":
+                dir = new int[]{0, -1};
+                break;
+            case "down":
+                dir = new int[]{0, 1};
+                break;
+            case "left":
+                dir = new int[]{-1, 0};
+                break;
+            case "right":
+                dir = new int[]{1, 0};
+                break;
+            default:
+                break;
         }
         this.x = x + dir[0];
         this.y = y + dir[1];
         Element res = null;
         res = GAPI.exsit(this.x, this.y);
-        if(res == null){
+        if (res == null) {
             init(GAPI);
-        }else{
+        } else {
             res.submit(new Attack());
             running = false;
         }
@@ -46,9 +46,9 @@ public class Bullet extends ActiveElement {
         int nx = x + dir[0];
         int ny = y + dir[1];
         Element res = GAPI.exsit(nx, ny);
-        if(res == null){
+        if (res == null) {
             moveTo(nx, ny);
-        }else{
+        } else {
             res.submit(new Attack());
             interrupt();
         }

@@ -75,6 +75,12 @@ public abstract class ActiveElement extends PassiveElement {
         super.run();
     }
 
+    /**
+     * move a pixiel to (nx, ny)
+     * @param nx
+     * @param ny
+     * @return caller if move operation succeed, otherwise return the current occupier
+     */
     protected Element moveTo(int nx, int ny) {
         Element e = GAPI.tryOccupy(nx, ny, this);
         if (e == this) {
