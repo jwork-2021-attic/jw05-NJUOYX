@@ -74,6 +74,9 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
                 case KeyEvent.VK_SPACE:
                     res = "attack";
                     break;
+                case KeyEvent.VK_C:
+                    res = "change_weapon";
+                    break;
                 default:
                     res = null;
                     break;

@@ -17,6 +17,7 @@ public abstract class Element extends Thread{
     public Boolean init(GAPI GAPI) {
         running = true;
         this.GAPI = GAPI;
+        setName(toString());
         return true;
     }
 

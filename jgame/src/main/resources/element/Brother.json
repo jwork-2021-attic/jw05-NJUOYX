@@ -1,4 +1,5 @@
 {
   "character": 1,
-  "color": [255,255,0]
+  "color": [255,255,0],
+  "weapons": ["Gun", "Shotgun","Wall"]
 }

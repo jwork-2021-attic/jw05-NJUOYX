@@ -59,6 +59,7 @@ public abstract class ActiveElement extends PassiveElement {
         ActiveElement activeElement;
         public ActiveProcessor(ActiveElement activeElement) {
             this.activeElement = activeElement;
+            setName(toString());
         }
         @Override
         public void run(){
@@ -66,6 +67,10 @@ public abstract class ActiveElement extends PassiveElement {
                 activeElement.activeProcessor();
                 frameSleep();
             }
+        }
+        @Override
+        public String toString(){
+            return activeElement.toString() + ": active_thread";
         }
     }
 

@@ -1,36 +1,21 @@
-package nju.java.logic.element;
+package nju.java.logic.element.utils;
 
+import nju.java.logic.element.Element;
+import nju.java.logic.element.GAPI;
 import nju.java.logic.element.opration.Attack;
 
-public class Bullet extends ActiveElement {
-
-    private int[] dir;
-
+public class Bullet extends Util {
 
     public Bullet(int x, int y, String sdir, GAPI GAPI) {
+        super(x, y, sdir, GAPI);
+        //These should be better
         this.character = 7;
         setColor(new int[]{255, 255, 255});
 
-        switch (sdir) {
-            case "up":
-                dir = new int[]{0, -1};
-                break;
-            case "down":
-                dir = new int[]{0, 1};
-                break;
-            case "left":
-                dir = new int[]{-1, 0};
-                break;
-            case "right":
-                dir = new int[]{1, 0};
-                break;
-            default:
-                break;
-        }
+
         this.x = x + dir[0];
         this.y = y + dir[1];
-        Element res = null;
-        res = GAPI.exsit(this.x, this.y);
+        Element res = GAPI.exsit(this.x, this.y);
         if (res == null) {
             init(GAPI);
         } else {
@@ -61,6 +46,11 @@ public class Bullet extends ActiveElement {
 
     @Override
     public void frameSleep() {
-        eSleep(20);
+        eSleep(50);
+    }
+
+    @Override
+    public String toString(){
+        return "Bullet" + getId();
     }
 }
