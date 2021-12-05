@@ -7,10 +7,10 @@ import nju.java.logic.element.opration.Operation;
 public class Wall extends Util{
 
     public Wall(int x, int y, String sdir, GAPI GAPI){
-        super(x, y, sdir, GAPI);
+        super(x, y, sdir+"-left", GAPI);
         this.x = x + dir[0];
         this.y = y + dir[1];
-        character = 177;
+        setCharacter((char)177);
         setColor(new int[]{255, 0, 255});
         running = init(GAPI);
     }

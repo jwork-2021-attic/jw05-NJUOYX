@@ -16,18 +16,9 @@ public class UtilsMaker {
     }
 
     private static void shotgunStart(int x , int y, String direction, GAPI gapi){
-        String left = null;
-        String right = null;
-        switch (direction){
-            case"up":left = "left-up";right = "right-up";break;
-            case"down":left = "left-down";right = "right-down";break;
-            case"left":left = "left-down";right = "left-up";break;
-            case"right":left = "right-up";right = "right-down";break;
-            default:assert false;break;
-        }
         new Bullet(x, y, direction, gapi).start();
-        new Bullet(x, y, left, gapi).start();
-        new Bullet(x, y, right, gapi).start();
+        new Bullet(x, y, direction+"-left", gapi).start();
+        new Bullet(x, y, direction+"-right", gapi).start();
     }
 
 

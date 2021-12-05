@@ -2,6 +2,7 @@ package nju.java.logic.element;
 
 import nju.java.logic.element.opration.Attack;
 import nju.java.logic.element.opration.Operation;
+import nju.java.logic.element.opration.ToBrotherAttack;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,7 +41,9 @@ public class Monster extends ActiveElement {
     protected void strategy() {
         int[] np = moveStrategy();
         Element element = moveTo(np[0],np[1]);
-        assert element == this;
+        if(element != this){
+            element.submit(new ToBrotherAttack());
+        }
     }
 
 

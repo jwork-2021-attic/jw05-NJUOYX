@@ -16,33 +16,16 @@ public abstract class Util extends ActiveElement {
     }
 
     private void setDir(String sdir) {
-        switch (sdir) {
-            case "up":
-                dir = new int[]{0, -1};
-                break;
-            case "down":
-                dir = new int[]{0, 1};
-                break;
-            case "left":
-                dir = new int[]{-1, 0};
-                break;
-            case "right":
-                dir = new int[]{1, 0};
-                break;
-            case "right-up":
-                dir = new int[]{1,-1};
-                break;
-            case"right-down":
-                dir = new int[]{1,1};
-                break;
-            case"left-up":
-                dir = new int[]{-1,-1};
-                break;
-            case"left-down":
-                dir = new int[]{-1, 1};
-                break;
-            default:
-                break;
+        dir = new int[]{0,0};
+        switch (sdir){
+            case"up":dir[1] = -1;break;
+            case"down":dir[1] = 1;break;
+            case"left":dir[0] = -1;break;
+            case"right":dir[0] = 1;break;
+            case"up-left":case"left-right":dir[0] = -1;dir[1] = -1;break;
+            case"up-right":case"right-left":dir[0] = 1;dir[1] = -1;break;
+            case"down-left":case"left-left":dir[0] = -1;dir[1] = 1;break;
+            case"down-right":case"right-right":dir[0] = 1;dir[1] = 1;break;
         }
     }
 }
