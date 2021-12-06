@@ -28,6 +28,7 @@ public abstract class Element extends Thread{
     @Override
     public void interrupt() {
         running = false;
+        eSleep(500);
     }
 
     public void submit(Operation operation) {

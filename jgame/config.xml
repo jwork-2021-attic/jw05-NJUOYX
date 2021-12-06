@@ -6,10 +6,10 @@
 <entry key="range_y">50</entry>
 <entry key="barrier">Barrier_50x50</entry>
     <entry key="brother">Brother</entry>
-    <entry key="brother_x">10</entry>
-    <entry key="brother_y">10</entry>
-    <entry key="monster">Monster</entry>
+    <entry key="brother_x">20</entry>
+    <entry key="brother_y">20</entry>
+    <entry key="monster">KingMonster,Monster</entry>
     <entry key="monster_x">1</entry>
     <entry key="monster_y">1</entry>
-    <entry key="monster_num">10</entry>
+    <entry key="monster_num">3,10</entry>
 </properties>

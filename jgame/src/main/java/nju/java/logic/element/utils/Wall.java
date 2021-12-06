@@ -6,6 +6,8 @@ import nju.java.logic.element.opration.Operation;
 
 public class Wall extends Util{
 
+    private int hp = 5;
+
     public Wall(int x, int y, String sdir, GAPI GAPI){
         super(x, y, sdir+"-left", GAPI);
         this.x = x + dir[0];
@@ -32,7 +34,10 @@ public class Wall extends Util{
     @Override
     public void process(Operation operation){
         if(operation instanceof Attack){
-            interrupt();
+            hp--;
+            if(hp<0) {
+                interrupt();
+            }
         }
     }
 }

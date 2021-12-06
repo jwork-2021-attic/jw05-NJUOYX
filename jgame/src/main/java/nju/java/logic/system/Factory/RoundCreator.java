@@ -1,29 +1,32 @@
 package nju.java.logic.system.Factory;
 
-import nju.java.logic.element.Brother;
-import nju.java.logic.element.Element;
-import nju.java.logic.element.GAPI;
-import nju.java.logic.element.Monster;
+import nju.java.logic.element.*;
 
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
-public class RoundCreator {
+public class RoundCreator extends Thread{
     private Properties properties;
     private GAPI gapi;
+    private Boolean empty = false;
 
     public RoundCreator(Properties properties, GAPI gapi){
         this.properties = properties;
         this.gapi = gapi;
     }
+
+    public Boolean isEmpty(){
+        return empty;
+    }
+
     public void run(){
         barrierInit().start();
         brotherInit().start();
-        Queue<Monster> monsters = monsterCreate();
+        Queue<ActiveElement> monsters = monsterCreate();
         while(!monsters.isEmpty()){
-            Monster monster = monsters.poll();
+            ActiveElement monster = monsters.poll();
             Boolean res = monster.init(gapi);
             if(!res){
                 monsters.add(monster);
@@ -32,6 +35,7 @@ public class RoundCreator {
             }
             eSleep(1000);
         }
+        empty = true;
     }
 
     private void eSleep(int milliseconds){
@@ -60,20 +64,22 @@ public class RoundCreator {
         return brother;
     }
 
-    private Queue<Monster> monsterCreate(){
-        String monsterFile = properties.getProperty("monster");
-        String monsterNum = properties.getProperty("monster_num");
+    private Queue<ActiveElement> monsterCreate(){
+        String[] monsterFile = properties.getProperty("monster").split(",");
+        String[] monsterNum = properties.getProperty("monster_num").split(",");
         String strX = properties.getProperty("monster_x");
         String strY = properties.getProperty("monster_y");
         int x = Integer.parseInt(strX);
         int y = Integer.parseInt(strY);
-        int mnum = Integer.parseInt(monsterNum);
-        Queue<Monster>queue = new LinkedList<>();
-        for(int i = 0;i<mnum;++i){
-           Monster monster = (Monster)ElementFactory.getElement(monsterFile);
-           monster.setX(x);
-           monster.setY(y);
-           queue.add(monster);
+        Queue<ActiveElement> queue = new LinkedList<>();
+        for(int i = 0;i<monsterFile.length;++i) {
+            int mnum = Integer.parseInt(monsterNum[i]);
+            for (int j = 0; j < mnum; ++j) {
+                ActiveElement monster = (ActiveElement) ElementFactory.getElement(monsterFile[i]);
+                monster.setX(x);
+                monster.setY(y);
+                queue.add(monster);
+            }
         }
         return queue;
     }

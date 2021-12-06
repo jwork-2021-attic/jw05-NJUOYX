@@ -14,14 +14,20 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
     private AsciiPanel terminal;
     private int rangeX;
     private int rangeY;
+    private final int logXLen = 25;
+    private final int logYLen = 3;
+    private final int logXGap = 2;
+    private final int logYGap = 1;
+
+
     private Queue<KeyEvent>press_input_queue;
 
     public AsciiEngine(){
         super();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        rangeX = 10;
-        rangeY = 10;
+        rangeX = logXLen;
+        rangeY = logYLen;
         terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
         press_input_queue = new LinkedList<>();
     }
@@ -30,7 +36,7 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
     public void resizeScreen(int rangeX, int rangeY) {
         this.rangeX = rangeX;
         this.rangeY = rangeY;
-        terminal = new AsciiPanel(rangeX, rangeY, AsciiFont.TALRYTH_15_15);
+        terminal = new AsciiPanel(rangeX+ logXLen, rangeY, AsciiFont.TALRYTH_15_15);
         add(terminal);
         pack();
         addKeyListener(this);
@@ -40,6 +46,19 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
     @Override
     public void display(int x, int y, char character, Color color, Boolean visible) {
         terminal.write(character,x,y,visible?color:Color.BLACK);
+        repaint();
+    }
+
+    @Override
+    public void logOut(int logIndex, String log){
+        int totalRows = rangeY/logYLen;
+        if(logIndex<0){
+            logIndex = totalRows+logIndex;
+        }
+        int cursorX = rangeX + logXGap;
+        int cursorY = logIndex * logYLen+logYGap;
+        terminal.clear((char)0, rangeX, cursorY, logXLen,logYLen);
+        terminal.write(log, cursorX, cursorY);
         repaint();
     }
 

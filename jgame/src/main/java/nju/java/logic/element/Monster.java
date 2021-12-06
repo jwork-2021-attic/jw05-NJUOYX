@@ -21,6 +21,9 @@ public class Monster extends ActiveElement {
      */
     protected int[] moveStrategy() {
         Brother brother = (Brother) GAPI.getElement("brother");
+        if(brother == null){
+            return new int[]{x,y};
+        }
         int bx = brother.getX();
         int by = brother.getY();
         int [][]direction = new int [][]{{1,0},{-1,0},{0,-1},{0,1}};
@@ -61,7 +64,7 @@ public class Monster extends ActiveElement {
 
     @Override
     public void frameSleep() {
-        eSleep(400);
+        eSleep(250);
     }
 
     @Override

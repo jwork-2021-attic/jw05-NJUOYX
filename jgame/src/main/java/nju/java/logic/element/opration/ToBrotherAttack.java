@@ -1,4 +1,4 @@
 package nju.java.logic.element.opration;
 
-public class ToBrotherAttack implements Operation{
+public class ToBrotherAttack extends Attack{
 }

@@ -1,6 +1,10 @@
 package nju.java.logic.element;
 
+import nju.java.logic.system.position.Position;
+
 import java.awt.Color;
+import java.util.List;
+import java.util.Queue;
 
 public interface GAPI {
     /**
@@ -66,4 +70,16 @@ public interface GAPI {
      * @param element only the owner of the name could unregister the name
      */
     void unregister(String name,Element element);
+
+    void logOut(int index, String log);
+
+    /**
+     * get the position route from x,y to nx,ny
+     * @param x current x
+     * @param y current y
+     * @param nx new x
+     * @param ny new y
+     * @return position queue exclude {x,y}and include {nx, ny}
+     */
+    List<Position> getRoute(int x, int y, int nx, int ny);
 }

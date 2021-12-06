@@ -80,6 +80,7 @@ public class GSystem implements GAPI {
     private Properties properties;
     private List<EPosition>positionList;
     private Recorder recorder = new Recorder();
+    private RoundCreator roundCreator;
 
     /**
      * GAPI controls the whole game logic
@@ -118,21 +119,26 @@ public class GSystem implements GAPI {
     }
 
     public void run(){
-        new RoundCreator(properties,this).run();
-        while(runningCheck()){
+        roundCreator = new RoundCreator(properties,this);
+        roundCreator.start();
+        do{
             eSleep(400);
-        }
+        }while(runningCheck());
         recorder.toList().forEach(e->e.interrupt());
     }
 
     private Boolean runningCheck(){
         Element e = getElement("brother");
         if(e == null){
+            engine.logOut(-1, "Lost!");
             return false;
         }
-        e = getElement("monster");
-        if(e == null){
-            return false;
+        if(roundCreator.isEmpty()) {
+            e = getElement("monster");
+            if (e == null) {
+                engine.logOut(-1, "Success!");
+                return false;
+            }
         }
         return true;
     }
@@ -146,6 +152,62 @@ public class GSystem implements GAPI {
     }
 
     @Override
+    public List<Position>getRoute(int x, int y, int nx, int ny){
+        List<Position>res = new LinkedList<>();
+
+        if(x == nx && y == ny){res.add(new Position(nx, ny));return res;}
+
+        List<int[]>direction = new LinkedList<>();
+        if(nx > x){
+            direction.add(new int[]{1,0});
+        }else if(nx < x){
+            direction.add(new int[]{-1,0});
+        }
+        if(ny > y){
+            direction.add(new int[]{0,1});
+        }else if(ny < y){
+            direction.add(new int[]{0,-1});
+        }
+
+        Stack<int[]>stack = new Stack<>();
+        stack.add(new int[]{x,y,0});
+        while(!stack.isEmpty()){
+            int[]top = stack.pop();
+            int cx = top[0];
+            int cy = top[1];
+            int i = top[2];
+            while(i<direction.size()){
+                int x0 = cx + direction.get(i)[0];
+                if(Math.abs(x0-nx)>Math.abs(cx-nx)){ i++; continue;}
+
+                int y0 = cy + direction.get(i)[1];
+                if(Math.abs(y0-ny)>Math.abs(cy-ny)){i++; continue;}
+
+                Position p = new Position(x0, y0);
+                int index = positionList.indexOf(p);
+                if(index<0){continue;}
+                EPosition ep = positionList.get(index);
+                if((x0 == nx && y0 == ny) ||  ep.getOwner()==null){
+                    stack.add(new int[]{cx, cy, i+1});
+                    stack.add(new int[]{x0, y0, 0});
+                    break;
+                }
+                i++;
+            }
+            if(stack.isEmpty()){return null;}
+            if(stack.peek()[0] == nx && stack.peek()[1] == ny){
+                stack.forEach(s->{
+                    res.add(new Position(s[0],s[1]));
+                });
+                res.remove(0);
+                return res;
+            }
+
+        }
+        return null;
+    }
+
+    @Override
     public void display(int x, int y, char character, Color color, Boolean visible) {
         engine.display(x, y, character, color, visible);
     }
@@ -153,21 +215,18 @@ public class GSystem implements GAPI {
     @Override
     public Element tryOccupy(int x, int y, Element requester) {
         int index = positionList.indexOf(new Position(x,y));
-        assert(index>=0);
         return positionList.get(index).tryOccupy(requester);
     }
 
     @Override
     public Element exsit(int x, int y) {
         int index = positionList.indexOf(new Position(x,y));
-        assert(index>=0);
         return positionList.get(index).getOwner();
     }
 
     @Override
     public void release(int x, int y, Element element) {
         int index = positionList.indexOf(new Position(x,y));
-        assert(index>=0);
         positionList.get(index).release(element);
     }
 
@@ -192,5 +251,10 @@ public class GSystem implements GAPI {
         if(e == element){
             recorder.remove(name);
         }
+    }
+
+    @Override
+    public void logOut(int index, String log){
+        engine.logOut(index, log);
     }
 }

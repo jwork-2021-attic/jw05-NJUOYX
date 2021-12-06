@@ -8,4 +8,5 @@ public interface Engine {
     int getRangeX();
     int getRangeY();
     String getInput();
+    void logOut(int logIndex, String log);
 }

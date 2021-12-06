@@ -50,9 +50,10 @@ public abstract class ActiveElement extends PassiveElement {
 
     @Override
     public void interrupt() {
-        super.interrupt();
+        GAPI.unregister(toString(), this);
         GAPI.release(x, y, this);
         GAPI.display(x, y, character, color, false);
+        super.interrupt();
     }
 
     class ActiveProcessor implements Runnable {
@@ -98,8 +99,17 @@ public abstract class ActiveElement extends PassiveElement {
         return e;
     }
 
+    protected void attackedDisplay(){
+        new Thread(()->{
+            GAPI.display(x, y, character,color, false);
+            eSleep(50);
+            GAPI.display(x, y, character, color, true);
+        }).start();
+    }
+
     protected abstract void activeProcessor();
 
     protected abstract void frameSleep();
+
 
 }

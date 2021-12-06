@@ -1,5 +1,8 @@
 package nju.java.logic.element;
 
+import nju.java.logic.element.opration.Attack;
+import nju.java.logic.element.opration.Operation;
+import nju.java.logic.element.opration.ToBrotherAttack;
 import nju.java.logic.element.utils.Bullet;
 import nju.java.logic.element.utils.UtilsMaker;
 
@@ -7,10 +10,12 @@ public class Brother extends ActiveElement {
 
     private String[] weapons;
     private int currentWeapon = 0;
+    protected int hp;
 
     public void setWeapons(String[] weapons) {
         this.weapons = weapons;
     }
+    public void setHp(int hp){this.hp = hp;}
 
     private void resolveMove(String str) {
         int nx = x;
@@ -68,6 +73,8 @@ public class Brother extends ActiveElement {
 
     @Override
     public void activeProcessor() {
+        GAPI.logOut(0, "Your Weapon: "+ weapons[currentWeapon]);
+        GAPI.logOut(1, "Your HP: " + hp);
         String str = GAPI.getInput();
         resolveInput(str);
     }
@@ -76,6 +83,18 @@ public class Brother extends ActiveElement {
     @Override
     public void frameSleep() {
         eSleep(25);
+    }
+
+    @Override
+    public void process(Operation operation){
+        if(operation instanceof Attack){
+            hp--;
+            if(hp>0){
+                attackedDisplay();
+            }else{
+                interrupt();
+            }
+        }
     }
 
     @Override
