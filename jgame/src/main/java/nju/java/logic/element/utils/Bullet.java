@@ -34,6 +34,7 @@ public class Bullet extends Util {
         if (res == null) {
             moveTo(nx, ny);
         } else {
+            exposeDisplay(x, y);
             res.submit(new Attack());
             interrupt();
         }

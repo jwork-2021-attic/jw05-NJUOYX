@@ -4,6 +4,8 @@ import nju.java.logic.element.Element;
 import nju.java.logic.element.GAPI;
 import nju.java.logic.element.opration.Attack;
 
+import java.awt.*;
+
 public class Mine extends Util{
 
     public Mine(int x, int y, String sdir, GAPI GAPI){
@@ -27,6 +29,7 @@ public class Mine extends Util{
     protected void activeProcessor() {
         Element e = GAPI.exsit(x,y);
         if(e != null){
+            exposeDisplay(x, y);
             e.submit(new Attack());
             interrupt();
         }
@@ -36,4 +39,5 @@ public class Mine extends Util{
     protected void frameSleep() {
         eSleep(10);
     }
+
 }
