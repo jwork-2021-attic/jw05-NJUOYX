@@ -69,8 +69,8 @@ public class ServerEngine implements Engine{
                 properties.put("function","display");
                 properties.put("arg0",String.valueOf(x));
                 properties.put("arg1",String.valueOf(y));
-                properties.put("arg2",String.valueOf(character));
-                properties.put("arg3",String .valueOf(color.getRGB()));
+                properties.put("arg2",String.valueOf((int)character));
+                properties.put("arg3",String .valueOf(color == null? 0:color.getRGB()));
                 properties.put("arg4",Boolean.toString(visible));
                 player.send(properties);
             }catch (IOException e){
@@ -104,26 +104,25 @@ public class ServerEngine implements Engine{
         return null;
     }
 
-    private String inputReceiver(Socket p)throws IOException{
-        Log.logOut(p.toString()+"--------reading");
-        Properties properties = WebIO.read(p);
-        String input = properties.getProperty("input");
-        Log.logOut("get input:" + input);
-        return input;
+    @Override
+    public void logOut(int logIndex, String log) {
+
     }
 
     @Override
-    public void logOut(int logIndex, String log) {
-        players.forEach(player->{
-            try{
-                Properties properties = new Properties();
-                properties.put("function","logOut");
-                properties.put("arg0",String.valueOf(logIndex));
-                properties.put("arg1",log);
-                player.send(properties);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        });
+    public void logOut(int logIndex, String log, String player) {
+        for (Player p : players) {
+           if(p.identify(player)){
+               try {
+                   Properties properties = new Properties();
+                   properties.put("function", "logOut");
+                   properties.put("arg0", String.valueOf(logIndex));
+                   properties.put("arg1", log);
+                   p.send(properties);
+               }catch (IOException e){
+                   e.printStackTrace();
+               }
+           }
+        }
     }
 }

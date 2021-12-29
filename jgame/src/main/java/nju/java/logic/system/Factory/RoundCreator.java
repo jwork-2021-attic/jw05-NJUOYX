@@ -8,8 +8,8 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 public class RoundCreator extends Thread{
-    private Properties properties;
-    private GAPI gapi;
+    protected Properties properties;
+    protected GAPI gapi;
     private Boolean empty = false;
 
     public RoundCreator(Properties properties, GAPI gapi){
@@ -21,6 +21,7 @@ public class RoundCreator extends Thread{
         return empty;
     }
 
+    @Override
     public void run(){
         barrierInit().start();
         brotherInit().start();
@@ -46,7 +47,7 @@ public class RoundCreator extends Thread{
         }
     }
 
-    private Element barrierInit(){
+    protected Element barrierInit(){
         String barrierFile = properties.getProperty("barrier");
         Element barrier = ElementFactory.getElement(barrierFile);
         barrier.init(gapi);

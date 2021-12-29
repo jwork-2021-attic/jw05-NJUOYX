@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class ClientEngine extends JFrame implements KeyListener {
     private Socket client;
     private String playerName;
+    private int rangeY;
+    private int rangeX;
 
     private AsciiPanel terminal;
 
@@ -51,6 +53,8 @@ public class ClientEngine extends JFrame implements KeyListener {
     }
 
     private void resizeScreen(int rangeX, int rangeY) {
+        this.rangeX = rangeX;
+        this.rangeY = rangeY;
         this.terminal = new AsciiPanel(rangeX+ logXLen, rangeY, AsciiFont.TALRYTH_15_15);
         add(this.terminal);
         pack();
@@ -63,10 +67,21 @@ public class ClientEngine extends JFrame implements KeyListener {
         repaint();
     }
 
+    private void logOut(int logIndex, String log){
+        int totalRows = rangeY/logYLen;
+        if(logIndex<0){
+            logIndex = totalRows+logIndex;
+        }
+        int cursorX = rangeX + logXGap;
+        int cursorY = logIndex * logYLen+logYGap;
+        terminal.clear((char)0, rangeX, cursorY, logXLen,logYLen);
+        terminal.write(log, cursorX, cursorY);
+        repaint();
+    }
+
 
     private void solveCommand(Properties properties)throws IOException{
         String function = properties.getProperty("function");
-        Log.logOut("solving command"+function);
         switch (function){
             case "resizeScreen":{
                 int rangeX = Integer.valueOf(properties.getProperty("arg0"));
@@ -76,11 +91,16 @@ public class ClientEngine extends JFrame implements KeyListener {
             case "display":{
                 int x = Integer.valueOf(properties.getProperty("arg0"));
                 int y = Integer.valueOf(properties.getProperty("arg1"));
-                char character = Character.valueOf(properties.getProperty("arg2").charAt(0));
+                int character = Integer.valueOf(properties.getProperty("arg2"));
                 Color color = new Color(Integer.valueOf(properties.getProperty("arg3")));
                 Boolean visible = Boolean.valueOf(properties.getProperty("arg4"));
-                display(x, y, character, color, visible);
+                display(x, y, (char)character, color, visible);
             }break;
+            case "logOut":{
+                int index = Integer.valueOf(properties.getProperty("arg0"));
+                String log = properties.getProperty("arg1");
+                logOut(index, log);
+            }
             default:break;
         }
     }

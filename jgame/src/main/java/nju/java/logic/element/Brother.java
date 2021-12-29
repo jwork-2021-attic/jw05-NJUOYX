@@ -5,17 +5,20 @@ import nju.java.logic.element.opration.Operation;
 import nju.java.logic.element.opration.ToBrotherAttack;
 import nju.java.logic.element.utils.Bullet;
 import nju.java.logic.element.utils.UtilsMaker;
+import nju.java.logic.system.engine.utils.Log;
 
 public class Brother extends ActiveElement {
 
     private String[] weapons;
     private int currentWeapon = 0;
     protected int hp;
+    private String playerId;
 
     public void setWeapons(String[] weapons) {
         this.weapons = weapons;
     }
     public void setHp(int hp){this.hp = hp;}
+    public void setPlayerId(String playerId){this.playerId = playerId;}
 
     private void resolveMove(String str) {
         int nx = x;
@@ -73,9 +76,10 @@ public class Brother extends ActiveElement {
 
     @Override
     public void activeProcessor() {
-        GAPI.logOut(0, "Your Weapon: "+ weapons[currentWeapon]);
-        GAPI.logOut(1, "Your HP: " + hp);
-        String str = GAPI.getInput();
+        GAPI.logOut(0, "Your Weapon: "+ weapons[currentWeapon], playerId);
+        GAPI.logOut(1, "Your HP: " + hp, playerId);
+        String str = GAPI.getInput(this.playerId);
+        if(str!=null) Log.logOut(this.playerId+": "+str);
         resolveInput(str);
     }
 

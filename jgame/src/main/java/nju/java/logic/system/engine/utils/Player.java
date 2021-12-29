@@ -33,6 +33,7 @@ public class Player implements Runnable{
                 Properties properties = WebIO.read(this.socket);
                 String input = properties.getProperty("input");
                 if(input!=null){
+                    Log.logOut(this.name+"getInput: "+input);
                     this.inputs.add(input);
                 }
             }catch (IOException e){

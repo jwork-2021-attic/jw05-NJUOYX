@@ -51,6 +51,12 @@ public interface GAPI {
     String getInput();
 
     /**
+     * for multiplayer mode
+     * @param playerId
+     * @return
+     */
+    String getInput(String playerId);
+    /**
      * this method can find a typical element by its name
      * @param name
      * @return return the typical element if it exists and name is correct,otherwise returns null
@@ -71,7 +77,10 @@ public interface GAPI {
      */
     void unregister(String name,Element element);
 
+    @Deprecated
     void logOut(int index, String log);
+
+    void logOut(int index, String log, String player);
 
     /**
      * get the position route from x,y to nx,ny

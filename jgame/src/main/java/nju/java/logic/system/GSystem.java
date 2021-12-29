@@ -2,6 +2,7 @@ package nju.java.logic.system;
 
 import nju.java.logic.element.Element;
 import nju.java.logic.element.GAPI;
+import nju.java.logic.system.Factory.MultiplayerCreator;
 import nju.java.logic.system.Factory.RoundCreator;
 import nju.java.logic.system.engine.Engine;
 import nju.java.logic.system.position.EPosition;
@@ -119,12 +120,13 @@ public class GSystem implements GAPI {
     }
 
     public void run(){
-        roundCreator = new RoundCreator(properties,this);
+        //roundCreator = new RoundCreator(properties,this);
+        roundCreator = new MultiplayerCreator(properties, this);
         roundCreator.start();
-        do{
-            eSleep(400);
-        }while(runningCheck());
-        recorder.toList().forEach(e->e.interrupt());
+        //do{
+        //    eSleep(400);
+        //}while(runningCheck());
+        //recorder.toList().forEach(e->e.interrupt());
     }
 
     private Boolean runningCheck(){
@@ -236,6 +238,11 @@ public class GSystem implements GAPI {
     }
 
     @Override
+    public String getInput(String playerId){
+        return engine.getInput(playerId);
+    }
+
+    @Override
     public Element getElement(String name){
         return recorder.get(name);
     }
@@ -256,5 +263,10 @@ public class GSystem implements GAPI {
     @Override
     public void logOut(int index, String log){
         engine.logOut(index, log);
+    }
+
+    @Override
+    public void logOut(int index, String log, String player){
+        engine.logOut(index, log, player);
     }
 }

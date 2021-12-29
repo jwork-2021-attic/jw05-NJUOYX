@@ -4,16 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f688bf1-854c-4924-b9d1-82a10db47e96" name="Changes" comment="web added">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/WebIO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/nju/java/WebTest.java" afterDir="false" />
+    <list default="true" id="3f688bf1-854c-4924-b9d1-82a10db47e96" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/GClient1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/MultiplayerCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/GClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/GClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/Brother.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/Brother.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/GAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/GAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/RoundCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/RoundCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/GSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/GSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/AsciiEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/AsciiEngine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ClientEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ClientEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/Engine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ServerEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ServerEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/Player.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +62,21 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Server">
-    <configuration name="GClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="GClient" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="nju.java.GClient" />
+      <module name="jgame" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nju.java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GClient1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nju.java.GClient1" />
       <module name="jgame" />
       <extension name="coverage">
         <pattern>
@@ -128,6 +147,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GClient1" />
         <item itemvalue="Application.GClient" />
         <item itemvalue="Application.Server" />
         <item itemvalue="JUnit.WebTest.displayTest" />
@@ -151,12 +171,20 @@
       <option name="project" value="LOCAL" />
       <updated>1640702286707</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="web rebuild and runs">
+      <created>1640781348567</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1640781348567</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="complete replay" />
-    <option name="LAST_COMMIT_MESSAGE" value="complete replay" />
+    <MESSAGE value="web rebuild and runs" />
+    <option name="LAST_COMMIT_MESSAGE" value="web rebuild and runs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -165,6 +193,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/nju/java/WebTest.java</url>
           <line>35</line>
           <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/RoundCreator.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="68" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />

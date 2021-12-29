@@ -97,6 +97,11 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
     }
 
     @Override
+    public void logOut(int logIndex, String log, String player) {
+
+    }
+
+    @Override
     public int getRangeX() {
         return rangeX;
     }
