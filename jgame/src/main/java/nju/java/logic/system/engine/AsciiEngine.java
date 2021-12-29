@@ -2,6 +2,7 @@ package nju.java.logic.system.engine;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
+import nju.java.logic.system.engine.utils.OData;
 
 import javax.swing.JFrame;
 import java.awt.Color;
@@ -155,6 +156,9 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
             },odata.triggerTime);
         }
     }
+
+    @Override
+    public String getInput(String player){return getInput();}
 
     @Override
     public String getInput() {
