@@ -7,7 +7,8 @@ import java.io.IOException;
 public class GClient {
     public static void main(String[]strings){
         try {
-            ClientEngine clientEngine = new ClientEngine("localhost", 33006, "id");
+            ClientEngine clientEngine = new ClientEngine("localhost", 33006, "player");
+            clientEngine.run();
         }catch (IOException e){
             e.printStackTrace();
             System.exit(-1);

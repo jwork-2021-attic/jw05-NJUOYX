@@ -1,77 +1,60 @@
 package nju.java.logic.system.engine;
 
 import nju.java.logic.system.engine.utils.Log;
+import nju.java.logic.system.engine.utils.Player;
+import nju.java.logic.system.engine.utils.WebIO;
 
-import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.awt.Color;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import java.util.*;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
-public class ServerEngine implements Engine {
+public class ServerEngine implements Engine{
 
     private ServerSocket serverSocket;
-    private Map<String, Socket>players;
+    private Set<Player>players;
     private int rangeX;
     private int rangeY;
 
 
     public ServerEngine(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
-        this.serverSocket.setSoTimeout(60000);
-        this.players = new ConcurrentHashMap<>();
-        run();
+        this.players = new CopyOnWriteArraySet<>();
     }
 
-    private void run() {
-        new Thread(() -> {
-            while(true) {
-                try {
-                    Socket socket = this.serverSocket.accept();
-                    Log.logOut("accepted a new connection from"+socket);
-                    Properties properties = new Properties();
-                    properties.load(new DataInputStream(socket.getInputStream()));
-                    String name = properties.getProperty("player");
-                    players.put(name, socket);
-                    Log.logOut(String.format("new connection: player:%d",name));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    break;
-                }
+
+    public void run(int playerNum) {
+        for(int i = 0;i<playerNum;++i) {
+            try {
+                Socket socket = this.serverSocket.accept();
+                Log.logOut("accepted a new connection from"+socket);
+                Properties properties = WebIO.read(socket);
+                String name = properties.getProperty("player");
+                Player player = new Player(socket,name);
+                players.add(player);
+                new Thread(player).start();
+                Log.logOut("new connection: player:"+name);
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
             }
-        }).start();
-    }
-
-    interface Task {
-        void run(Socket socket);
-    }
-
-    private void handle(Task task){
-        players.forEach((name, socket)->{
-            new Thread(()->{
-                task.run(socket);
-            }).start();
-        });
+        }
     }
 
     @Override
     public void resizeScreen(int rangeX, int rangeY) {
         this.rangeX = rangeX;
         this.rangeY = rangeY;
-        handle(player->{
+        players.forEach(player->{
             try {
-                DataOutputStream out = new DataOutputStream(player.getOutputStream());
                 Properties properties = new Properties();
                 properties.put("function","resizeScreen");
                 properties.put("arg0",String.valueOf(rangeX));
                 properties.put("arg1",String.valueOf(rangeY));
-                properties.store(out,null);
-                out.flush();
+                player.send(properties);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -80,9 +63,8 @@ public class ServerEngine implements Engine {
 
     @Override
     public void display(int x, int y, char character, Color color, Boolean visible) {
-        handle(player->{
+        players.forEach(player->{
             try{
-                DataOutputStream out = new DataOutputStream(player.getOutputStream());
                 Properties properties = new Properties();
                 properties.put("function","display");
                 properties.put("arg0",String.valueOf(x));
@@ -90,8 +72,7 @@ public class ServerEngine implements Engine {
                 properties.put("arg2",String.valueOf(character));
                 properties.put("arg3",String .valueOf(color.getRGB()));
                 properties.put("arg4",Boolean.toString(visible));
-                properties.store(out,null);
-                out.flush();
+                player.send(properties);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -115,46 +96,31 @@ public class ServerEngine implements Engine {
 
     @Override
     public String getInput(String player){
-        List<String>gets = new LinkedList<>();
-        handle(p->{
-            try{
-                DataOutputStream out = new DataOutputStream(p.getOutputStream());
-                Properties properties = new Properties();
-                properties.put("function","getInput");
-                properties.put("arg0",player);
-                properties.store(out,null);
-                out.flush();
-            }catch (IOException e){
-                e.printStackTrace();
+        for (Player p : players) {
+            if(p.identify(player)){
+                return p.getInput();
             }
-        });
+        }
+        return null;
+    }
 
-        handle(p->{
-            try{
-                DataInputStream in = new DataInputStream(p.getInputStream());
-                Properties properties= new Properties();
-                properties.load(in);
-                String res = properties.getProperty("return");
-                if(res!=null){
-                    gets.add(res);
-                }
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        });
-        return gets.isEmpty()?null:gets.get(0);
+    private String inputReceiver(Socket p)throws IOException{
+        Log.logOut(p.toString()+"--------reading");
+        Properties properties = WebIO.read(p);
+        String input = properties.getProperty("input");
+        Log.logOut("get input:" + input);
+        return input;
     }
 
     @Override
     public void logOut(int logIndex, String log) {
-        handle(player->{
+        players.forEach(player->{
             try{
-                DataOutputStream out = new DataOutputStream(player.getOutputStream());
                 Properties properties = new Properties();
                 properties.put("function","logOut");
                 properties.put("arg0",String.valueOf(logIndex));
                 properties.put("arg1",log);
-                properties.store(out,null);
+                player.send(properties);
             }catch (IOException e){
                 e.printStackTrace();
             }
