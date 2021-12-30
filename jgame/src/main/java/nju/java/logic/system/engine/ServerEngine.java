@@ -1,6 +1,7 @@
 package nju.java.logic.system.engine;
 
 import nju.java.logic.system.engine.utils.Log;
+import nju.java.logic.system.engine.utils.OData;
 import nju.java.logic.system.engine.utils.Player;
 import nju.java.logic.system.engine.utils.WebIO;
 
@@ -14,11 +15,29 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class ServerEngine implements Engine{
 
+    class Saver{
+        ObjectOutputStream objectOutputStream;
+        long startTime;
+        Saver(String saveFile)throws IOException{
+            this.startTime = System.currentTimeMillis();
+            FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
+            this.objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        }
+
+        void save(String name, String input){
+            try {
+                this.objectOutputStream.writeObject(new OData(System.currentTimeMillis() - this.startTime, input, name));
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     private ServerSocket serverSocket;
     private Set<Player>players;
     private int rangeX;
     private int rangeY;
-
+    private Saver saver;
 
     public ServerEngine(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
@@ -42,6 +61,12 @@ public class ServerEngine implements Engine{
                 break;
             }
         }
+        try {
+            saver = new Saver("save_" + System.currentTimeMillis() + ".save");
+        }catch (IOException e){
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     @Override
@@ -60,6 +85,7 @@ public class ServerEngine implements Engine{
             }
         });
     }
+
 
     @Override
     public void display(int x, int y, char character, Color color, Boolean visible) {
@@ -98,7 +124,11 @@ public class ServerEngine implements Engine{
     public String getInput(String player){
         for (Player p : players) {
             if(p.identify(player)){
-                return p.getInput();
+                String input = p.getInput();
+                if(input!=null) {
+                    this.saver.save(player, input);
+                }
+                return input;
             }
         }
         return null;
@@ -109,20 +139,21 @@ public class ServerEngine implements Engine{
 
     }
 
+
     @Override
     public void logOut(int logIndex, String log, String player) {
         for (Player p : players) {
-           if(p.identify(player)){
-               try {
-                   Properties properties = new Properties();
-                   properties.put("function", "logOut");
-                   properties.put("arg0", String.valueOf(logIndex));
-                   properties.put("arg1", log);
-                   p.send(properties);
-               }catch (IOException e){
-                   e.printStackTrace();
-               }
-           }
+            if(p.identify(player)){
+                try {
+                    Properties properties = new Properties();
+                    properties.put("function", "logOut");
+                    properties.put("arg0", String.valueOf(logIndex));
+                    properties.put("arg1", log);
+                    p.send(properties);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

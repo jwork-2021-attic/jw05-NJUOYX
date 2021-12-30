@@ -5,21 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f688bf1-854c-4924-b9d1-82a10db47e96" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/GClient1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/MultiplayerCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/Rep0.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nju/java/Rep1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/GClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/GClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/Brother.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/Brother.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/GAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/element/GAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/RoundCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/Factory/RoundCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/GSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/GSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/AsciiEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/AsciiEngine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ClientEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ClientEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/Engine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ServerEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ServerEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/OData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/utils/OData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +53,7 @@
       <recent name="nju.java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Rep1">
     <configuration name="GClient" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="nju.java.GClient" />
       <module name="jgame" />
@@ -88,6 +80,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Rep0" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nju.java.Rep0" />
+      <module name="jgame" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nju.java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Rep1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nju.java.Rep1" />
+      <module name="jgame" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nju.java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="nju.java.Server" />
       <module name="jgame" />
@@ -98,38 +116,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WebTest.displayTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="jgame" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nju.java.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="nju.java" />
-      <option name="MAIN_CLASS_NAME" value="nju.java.WebTest" />
-      <option name="METHOD_NAME" value="displayTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WebTest.registTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="jgame" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nju.java.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="nju.java" />
-      <option name="MAIN_CLASS_NAME" value="nju.java.WebTest" />
-      <option name="METHOD_NAME" value="registTest" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -147,11 +133,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Rep1" />
+        <item itemvalue="Application.Rep0" />
+        <item itemvalue="Application.Server" />
         <item itemvalue="Application.GClient1" />
         <item itemvalue="Application.GClient" />
-        <item itemvalue="Application.Server" />
-        <item itemvalue="JUnit.WebTest.displayTest" />
-        <item itemvalue="JUnit.WebTest.registTest" />
       </list>
     </recent_temporary>
   </component>
@@ -178,13 +164,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640781348567</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="multiplayer done">
+      <created>1640794774966</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1640794774966</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="complete replay" />
     <MESSAGE value="web rebuild and runs" />
-    <option name="LAST_COMMIT_MESSAGE" value="web rebuild and runs" />
+    <MESSAGE value="multiplayer done" />
+    <option name="LAST_COMMIT_MESSAGE" value="multiplayer done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -199,11 +193,21 @@
           <line>53</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nju/java/logic/system/engine/ClientEngine.java</url>
+          <line>230</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="41" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((LinkedList)loader.timerInputs).first" custom="java.util.LinkedList" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 public class OData implements Serializable {
     public long triggerTime;
-    public int keyCode;
-    public OData(long triggerTime, int keyCode){
+    public String name;
+    public String input;
+    public OData(long triggerTime, String input, String name){
         this.triggerTime = triggerTime;
-        this.keyCode = keyCode;
+        this.input = input;
+        this.name = name;
     }
 }

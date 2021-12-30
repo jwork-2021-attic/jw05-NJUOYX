@@ -1,5 +1,5 @@
 package nju.java.logic.system.engine;
-
+/*
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 import nju.java.logic.system.engine.utils.OData;
@@ -217,3 +217,4 @@ public class AsciiEngine extends JFrame implements Engine, KeyListener {
 
     }
 }
+*/

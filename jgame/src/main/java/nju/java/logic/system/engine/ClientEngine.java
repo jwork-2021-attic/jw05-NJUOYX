@@ -3,29 +3,94 @@ package nju.java.logic.system.engine;
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 import nju.java.logic.system.engine.utils.Log;
+import nju.java.logic.system.engine.utils.OData;
 import nju.java.logic.system.engine.utils.WebIO;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.*;
 import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 public class ClientEngine extends JFrame implements KeyListener {
+
+    class Loader{
+        Queue<OData>inputs;
+        Queue<OData>timerInputs;
+        Loader(String loadFile)throws IOException, ClassNotFoundException{
+            this.inputs = new LinkedList<>();
+            this.timerInputs = new LinkedList<>();
+            try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(loadFile))){
+                while(true){
+                    inputs.add((OData) objectInputStream.readObject());
+                }
+            }catch (ClassNotFoundException e){
+                throw e;
+            }catch (EOFException e){
+                //setTimerInputs();
+                return ;
+            }catch (StreamCorruptedException e){
+                //setTimerInputs();
+                return;
+            }catch (IOException e){
+                throw e;
+            }
+        }
+        Boolean finish(){
+            return this.inputs.isEmpty() && this.timerInputs.isEmpty();
+        }
+
+        String getInput(String player){
+            OData oData = timerInputs.poll();
+            if(oData==null){
+                return null;
+            }else if(oData.name.equalsIgnoreCase(player)){
+                return oData.input;
+            }else{
+                return null;
+            }
+        }
+
+        void timerHandlerAction(ClientEngine clientEngine){
+            Timer timer = new Timer();
+            while(!this.inputs.isEmpty()) {
+                OData oData = this.inputs.poll();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if(clientEngine.playerName.equalsIgnoreCase(oData.name)) {
+                            clientEngine.sendInput(oData.input);
+                        }
+                    }
+                }, oData.triggerTime);
+            }
+        }
+
+        void setTimerInputs(){
+            Timer timer = new Timer();
+            while(!this.inputs.isEmpty()) {
+                OData oData = this.inputs.poll();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        timerInputs.add(oData);
+                    }
+                }, oData.triggerTime);
+            }
+        }
+    }
+
     private Socket client;
     private String playerName;
     private int rangeY;
     private int rangeX;
 
     private AsciiPanel terminal;
+
+    private Boolean isReplay = false;
 
     private final int logXLen = 25;
     private final int logYLen = 3;
@@ -41,8 +106,27 @@ public class ClientEngine extends JFrame implements KeyListener {
     }
 
     public void run()throws IOException{
-        register(playerName);
+        this.isReplay = false;
+        register(this.playerName);
         receiver();
+    }
+
+    public void replay(String loadFile)throws IOException,ClassNotFoundException{
+        this.isReplay = true;
+        register(this.playerName);
+        Loader loader = new Loader(loadFile);
+        loader.timerHandlerAction(this);
+        receiver();
+    }
+
+    private void keyPressedRp(Loader loader){
+        Log.logOut("key press init");
+        while(true) {
+            String input = loader.getInput(this.playerName);
+            Log.logOut("key input " + input);
+            sendInput(input);
+        }
+        //Log.logOut("key press finish");
     }
 
     private void register(String playerName)throws IOException{
@@ -145,18 +229,25 @@ public class ClientEngine extends JFrame implements KeyListener {
 
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        String res = resolveKeyCode(e.getKeyCode());
-        if(res!=null) {
+    private void sendInput(String input){
+        if(input!=null) {
             Properties properties = new Properties();
-            properties.setProperty("input",res);
+            properties.setProperty("input",input);
             try {
                 WebIO.write(properties, this.client);
-                Log.logOut("send string: "+res);
+                Log.logOut("send string: "+ input);
             }catch (IOException err){
                 err.printStackTrace();
             }
+        }
+    }
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(!this.isReplay){
+            String res = resolveKeyCode(e.getKeyCode());
+            sendInput(res);
         }
     }
 
